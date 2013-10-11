@@ -3,29 +3,31 @@ var app = ListenFirst.app;
 
 (function(){
 
-	app.factory('LastFm', function($http){
+	app.factory('LastFm', function($http, DataService){
 		var apiKey = "22648f0dcab32971882df69c27c6d8c9";
 		var apiRoot = "http://ws.audioscrobbler.com/2.0/";
-
-		function get(method, userName, returnObj) {
-			$http({ method: 'GET', url: buildUrl(method, userName) }).
-				success(function(data, status, headers, config) {
-   					returnObj.data = data;
-  				}).
-	  			error(function(data, status, headers, config) {
-	    			debugger;
-	  			});
+		
+		function get(method, onSuccess) {
+			var promise = $http({ method: 'GET', url: buildUrl( method ) }).
+				then(function(results) {
+						return onSuccess(results);
+					},
+					function(data, status, headers, config) {
+		    			debugger;
+		  			}
+		  		);
+	  		return promise;
 		}
 
-		function buildUrl(method, userName){
-			return apiRoot + "?format=json&method=" + method + "&user=" + userName + "&api_key=" + apiKey; 
+		function buildUrl(method){
+			return apiRoot + "?format=json&method=" + method + "&user=" + DataService.User.userName + "&api_key=" + apiKey; 
 		}
 
 		return {
 			getArtistsForUser: function(userName) {
-				var returnObj = {};
-				get("user.gettopartists", userName, returnObj);
-				return returnObj;
+				return get("user.gettopartists", function(results) {
+   					return results.data.topartists.artist;
+  				});
 			},
 			getUserTracksForArtist: function(artist) {
 				return "getUserTracksForArtist";

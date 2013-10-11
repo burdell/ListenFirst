@@ -6,8 +6,10 @@ var app = ListenFirst.app;
 	app.service('DataService', function(){
 		return {
 			User: { 
-				userName: null,
-				topArtists: null
+				userName: null
+			},
+			Artists: {
+				currentTopArtists: null
 			}
 		}
 	});

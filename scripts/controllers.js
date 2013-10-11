@@ -5,13 +5,19 @@ var app = ListenFirst.app;
 
 	app.controller('UserController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
 		var user = DataService.User;
-
-		$scope.setUsername = function(userName) {
-			user.topArtists = LastFm.getArtistsForUser(userName);
+		var artists = DataService.Artists;
+		$scope.setArtistsForUser = function(userName) {
+			user.userName = userName;
+			LastFm.getArtistsForUser().then(function(artistList){
+				artists.currentTopArtists = artistList;
+			});
 		}
 	}]);
 
 	app.controller('ArtistsController', ['$scope', 'DataService', function($scope, DataService){
-		$scope.data = DataService.User.topArtists;
+		$scope.data = {
+			artists: DataService.Artists,
+		}
 	}]);
+
 }());
