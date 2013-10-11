@@ -6,10 +6,8 @@ var app = ListenFirst.app;
 	app.service('DataService', function(){
 		return {
 			User: { 
-				userName: null
-			},
-			LastFm: {
-				apiKey: ""
+				userName: null,
+				topArtists: null
 			}
 		}
 	});
