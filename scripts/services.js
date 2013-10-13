@@ -10,6 +10,9 @@ var app = ListenFirst.app;
 			},
 			Artists: {
 				currentTopArtists: null
+			},
+			Tracks: {
+				firstTrack: null
 			}
 		}
 	});

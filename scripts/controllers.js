@@ -14,10 +14,22 @@ var app = ListenFirst.app;
 		}
 	}]);
 
-	app.controller('ArtistsController', ['$scope', 'DataService', function($scope, DataService){
+	app.controller('ArtistsController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
 		$scope.data = {
 			artists: DataService.Artists,
 		}
+		var user = DataService.User;
+		$scope.getFirstListen = function(artistName) {
+			LastFm.getUserTracksForArtist(artistName).then(function(trackList){
+				var firstTrack = _.last(trackList);
+				DataService.Tracks.firstTrack = firstTrack;
+			});	
+		}
 	}]);
 
+	app.controller('TracksController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
+		$scope.data = {
+			tracks: DataService.Tracks,
+		}
+	}]);
 }());
