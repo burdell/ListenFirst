@@ -8,9 +8,7 @@ var app = ListenFirst.app;
 		var artists = DataService.Artists;
 		$scope.setArtistsForUser = function(userName) {
 			user.userName = userName;
-			LastFm.getArtistsForUser().then(function(artistList){
-				artists.currentTopArtists = artistList;
-			});
+			artists.currentTopArtists = LastFm.getArtistsForUser();
 		}
 	}]);
 
@@ -18,12 +16,8 @@ var app = ListenFirst.app;
 		$scope.data = {
 			artists: DataService.Artists,
 		}
-		var user = DataService.User;
 		$scope.getFirstListen = function(artistName) {
-			LastFm.getUserTracksForArtist(artistName).then(function(trackList){
-				var firstTrack = _.last(trackList);
-				DataService.Tracks.firstTrack = firstTrack;
-			});	
+			DataService.Tracks.firstTrack = LastFm.getFirstTrackForArtist(artistName);
 		}
 	}]);
 
