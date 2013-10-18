@@ -12,8 +12,9 @@
 			</div>
 			<hr />
 			<div ng-app="ListenFirst">
+
 				<div ng-controller="UserController">
-					<div class="row">
+					<div class="row" ng-show="data.visibility()">
 						<div class="col-md-8">
 							<input class="form-control" type="text" ng-model="userName" placeholder="Enter your Last.fm username"/>	
 						</div>
@@ -22,25 +23,37 @@
 						</div>
 					</div>
 				</div>
+
 				<div ng-controller="ArtistsController">
-					<div class="row artists-container">
-						<div class="col-md-3 panel artist-panel" ng-repeat="artist in data.artists.currentTopArtists">
-							<p ng-click="getFirstListen(artist.name)">{{ artist.name }} ({{ artist.playcount }})</p>
-							<!--<img src="{{artist.image[1]['#text']}}" alt="{{artist.name}}" class="img-rounded">-->
+					<div ng-show="data.artists.loading == true" class="spinner"><img src="ajax-loader.gif" /></div> 
+					<div ng-show="data.artists.currentTopArtists" class="row artists-container">
+						<div class="row">
+							<div class="col-md-3">
+								<button ng-click="clearArtists()" class="btn btn-info btn-small"><span class="fui-arrow-left"> Set New User</button>
+							</div>
+						</div>
+						<div class="row">
+							<h3>Top {{ data.artists.currentTopArtists.length }} Artists for {{ data.user.userName }} </h3>
+							<div class="col-md-3 panel artist-panel" ng-repeat="artist in data.artists.currentTopArtists">
+								<p ng-click="getFirstListen(artist.name)">{{ artist.name }} ({{ artist.playcount }})</p>
+							</div>
 						</div>
 					</div>
 				</div>
+
 				<div ng-controller="TracksController">
-					<div class="row">
+					<div ng-show="data.tracks.loading == true" class="spinner"><img src="ajax-loader.gif" /></div>
+					<div ng-show="data.tracks.firstTrack" class="row">
 						<h5>You first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- vendor scripts -->
-		<script type="text/javascript" src="scripts/vendor/angular.min.js"></script>
-		<script type="text/javascript" src="scripts/vendor/lodash.js"></script>
 
+		<!-- vendor scripts -->	
+		<script type="text/javascript" src="scripts/vendor/lodash.js"></script>
+		<script type="text/javascript" src="scripts/vendor/angular.min.js"></script>
+		
 		<!-- not vendor scripts -->
 		<script type="text/javascript" src="scripts/app.js"></script>
 		<script type="text/javascript" src="scripts/factories.js"></script>

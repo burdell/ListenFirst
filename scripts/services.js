@@ -5,14 +5,19 @@ var app = ListenFirst.app;
 
 	app.service('DataService', function(){
 		return {
-			User: { 
+			User: {
 				userName: null
 			},
 			Artists: {
-				currentTopArtists: null
+				loading: false,
+				currentTopArtists: []
 			},
 			Tracks: {
+				loading: false,
 				firstTrack: null
+			},
+			cache: {
+
 			}
 		}
 	});

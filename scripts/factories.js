@@ -8,7 +8,7 @@ var app = ListenFirst.app;
 		var apiRoot = "http://ws.audioscrobbler.com/2.0/";
 		
 		function buildUrl(method, paramList){
-			var url = apiRoot + "?format=json&limit=10&method=" + method 
+			var url = apiRoot + "?format=json&limit=50&method=" + method 
 				+ "&user=" + DataService.User.userName + "&api_key=" + apiKey;
 			if (paramList){
 				_.each(paramList, function(value, key){
@@ -19,14 +19,20 @@ var app = ListenFirst.app;
 		}
 
 		return {
-			getArtistsForUser: function(userName) {
-				var url = buildUrl("user.gettopartists");
+			getArtistsForUser: function(userName, numArtists) {
+				if (_.isUndefined(numArtists)) numArtists = 10;
+
+				DataService.Artists.loading = true;
+				var url = buildUrl("user.gettopartists", { limit: numArtists });
 				return $http.get(url)
 					.then(function(result) {
+						DataService.Artists.loading = false;
 						return result.data.topartists.artist;
 					});
 			},
 			getUserTracksForArtist: function(artist) {
+				DataService.Tracks.loading = true;
+
 				var method = "user.getartisttracks";
 				var url = buildUrl(method, { artist: artist });
 				return $http.get(url)
@@ -39,10 +45,11 @@ var app = ListenFirst.app;
 							return $http.get(moreTracks);
 						}
 					})
-					.then(function(result){						
+					.then(function(result){
+						DataService.Tracks.loading = false;
 						return result.data.artisttracks.track;
 					});
-			}
+			},
 			getFirstTrackForArtist: function(artist) {
 				return this.getUserTracksForArtist(artist).then(function(trackList){
 					return _.last(trackList);
