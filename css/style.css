@@ -1,0 +1,13 @@
+.header {
+	background-color: #2C3E50;
+}
+
+.header h1, .header a {
+	display: inline;
+	color: #ECF0F1;
+	margin-left: 20px;
+}
+
+.user-selected {
+	margin-top: 30px;
+}

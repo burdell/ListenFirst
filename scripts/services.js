@@ -18,6 +18,11 @@ var app = ListenFirst.app;
 			},
 			cache: {
 
+			},
+			resetUser: function(){
+				this.User.userName = null;
+				this.Artists.currentTopArtists = [];
+				this.Tracks.firstTrack = null;
 			}
 		}
 	});

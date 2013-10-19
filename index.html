@@ -2,47 +2,56 @@
 <html>
 	<head>
 		<title>ListenFirst</title>
-		<link rel="stylesheet" type="text/css" href="flatui/bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="flatui/css/flat-ui.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/flat-ui.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
 		<div class="container">
-			<div class="row">
+			<div class="row header">
 				<h1>ListenFirst</h1>
+				<a target="_blank" href="https://github.com/burdell/ListenFirst">source</a>
 			</div>
 			<hr />
 			<div ng-app="ListenFirst">
 
 				<div ng-controller="UserController">
-					<div class="row" ng-show="data.visibility()">
+					<div class="row select-user" ng-show="data.selectUserVisibility()">
 						<div class="col-md-8">
-							<input class="form-control" type="text" ng-model="userName" placeholder="Enter your Last.fm username"/>	
+							<input class="form-control" type="text" ng-model="data.user.userName" placeholder="Enter your Last.fm username"/>	
 						</div>
 						<div class="col-md-4">
-							<button class="btn btn-primary" ng-click="setArtistsForUser(userName)" type="button">&nbsp;Go!&nbsp;</button>
+							<button class="btn btn-primary" ng-click="setArtistsForUser()" type="button">&nbsp;Go!&nbsp;</button>
+						</div>
+					</div>
+					<div ng-show="!data.selectUserVisibility()">
+						<div class="row" >
+							<div class="col-md-3">
+								<button ng-click="resetUser()" class="btn btn-info btn-small"><span class="fui-arrow-left"> Set New User</button>
+							</div>
+						</div>
+						<hr />
+						<div class="user-selected row">
+							<h4>Artists for {{ data.user.userName }}</h4>
 						</div>
 					</div>
 				</div>
-
+				
 				<div ng-controller="ArtistsController">
-					<div ng-show="data.artists.loading == true" class="spinner"><img src="ajax-loader.gif" /></div> 
-					<div ng-show="data.artists.currentTopArtists" class="row artists-container">
-						<div class="row">
-							<div class="col-md-3">
-								<button ng-click="clearArtists()" class="btn btn-info btn-small"><span class="fui-arrow-left"> Set New User</button>
+					<fieldset>
+						<div ng-show="data.artists.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div> 
+						<div ng-show="data.artists.currentTopArtists" class="row artists-container">
+							<div class="row">
+								<div class="col-md-3 panel artist-panel" ng-repeat="artist in data.artists.currentTopArtists">
+									<p ng-click="getFirstListen(artist.name)">{{ artist.name }} ({{ artist.playcount }})</p>
+								</div>
 							</div>
 						</div>
-						<div class="row">
-							<h3>Top {{ data.artists.currentTopArtists.length }} Artists for {{ data.user.userName }} </h3>
-							<div class="col-md-3 panel artist-panel" ng-repeat="artist in data.artists.currentTopArtists">
-								<p ng-click="getFirstListen(artist.name)">{{ artist.name }} ({{ artist.playcount }})</p>
-							</div>
-						</div>
-					</div>
+					</fieldset>
 				</div>
 
 				<div ng-controller="TracksController">
-					<div ng-show="data.tracks.loading == true" class="spinner"><img src="ajax-loader.gif" /></div>
+					<div ng-show="data.tracks.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div>
 					<div ng-show="data.tracks.firstTrack" class="row">
 						<h5>You first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
 					</div>
