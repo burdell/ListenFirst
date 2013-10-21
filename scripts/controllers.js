@@ -19,6 +19,16 @@ var app = ListenFirst.app;
 		}
 	}]);
 
+	app.controller('FilterController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
+		$scope.data = {
+			filter: DataService.Filter,
+			filterVisibility: function(){
+				return DataService.Artists.currentTopArtists.length != 0;
+			}
+		}
+		
+	}]);
+
 	app.controller('ArtistsController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
 		$scope.data = {
 			artists: DataService.Artists,

@@ -8,6 +8,9 @@ var app = ListenFirst.app;
 			User: {
 				userName: null
 			},
+			Filter: {
+				optionsShown: false
+			},
 			Artists: {
 				loading: false,
 				currentTopArtists: []

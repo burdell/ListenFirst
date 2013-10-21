@@ -14,7 +14,6 @@
 			</div>
 			<hr />
 			<div ng-app="ListenFirst">
-
 				<div ng-controller="UserController">
 					<div class="row select-user" ng-show="data.selectUserVisibility()">
 						<div class="col-md-8">
@@ -27,12 +26,40 @@
 					<div ng-show="!data.selectUserVisibility()">
 						<div class="row" >
 							<div class="col-md-3">
-								<button ng-click="resetUser()" class="btn btn-info btn-small"><span class="fui-arrow-left"> Set New User</button>
+								<button ng-click="resetUser()" class="btn btn-info btn-small"><span class="fui-arrow-left"></span> Set New User</button>
 							</div>
 						</div>
 						<hr />
 						<div class="user-selected row">
 							<h4>Artists for {{ data.user.userName }}</h4>
+						</div>
+					</div>
+				</div>
+
+				<div ng-controller="FilterController">
+					<div ng-show="data.filterVisibility()">
+						<div class="filter">
+							<div class="row filter-header">
+									<h6 ng-click="data.optionsShown = !data.optionsShown"><span ng-class="{'chevron-down': data.optionsShown}" class="fui-arrow-right"></span> Filter </h6>
+							</div>
+							<div ng-show="data.optionsShown" class="row filter-options">
+								<div class="col-md-2">
+									<h6>Show...</h6>
+										<label><input type="radio" ng-model="artistsNum" value="10" /> 10 artists</label> <br/>
+										<label><input type="radio" ng-model="artistsNum" value="20" /> 20 artists</label> <br />
+										<label><input type="radio" ng-model="artistsNum" value="30" /> 30 artists</label><br />
+										<label><input type="radio" ng-model="artistsNum" value="40" /> 50 artists</label><br />
+								</div>
+								<div class="col-md-2">
+									<h6>From...</h6>
+										<label><input type="radio" ng-model="timeVal" value="overall" /> All time</label><br />
+										<label><input type="radio" ng-model="timeVal" value="7day" /> 1 week</label> <br/>
+										<label><input type="radio" ng-model="timeVal" value="1month" /> 1 month</label> <br />
+										<label><input type="radio" ng-model="timeVal" value="3month" /> 3 months</label> <br />
+										<label><input type="radio" ng-model="timeVal" value="6month" /> 6 months</label><br />
+										<label><input type="radio" ng-model="timeVal" value="12month" /> 1 year</label><br />
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -68,5 +95,6 @@
 		<script type="text/javascript" src="scripts/factories.js"></script>
 		<script type="text/javascript" src="scripts/services.js"></script>
 		<script type="text/javascript" src="scripts/controllers.js"></script>
+		<script type="text/javascript" src="scripts/directives.js"></script>
 	</body>
 </html>

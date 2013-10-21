@@ -11,3 +11,37 @@
 .user-selected {
 	margin-top: 30px;
 }
+
+.chevron-down {
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+
+.filter {
+	border-style: none solid solid;
+	border-width: 1px;
+	border-radius:25px;
+	margin: 15px 5px;
+}
+
+.filter h6 {
+	padding-left: 20px;
+}
+
+.filter-header {
+	border-radius:25px;
+	background-color: #ECF0F1;
+}
+
+.filter-header:hover {
+	color: #7F8C8D;
+}
+
+.filter-options {
+	padding: 10px 20px;
+}
+
+.no-border {
+	border-style: none;
+}
