@@ -15,15 +15,15 @@
 			<hr />
 			<div ng-app="ListenFirst">
 				<div ng-controller="UserController">
-					<div class="row select-user" ng-show="data.selectUserVisibility()">
+					<div class="row select-user" ng-show="selectUserVisibility()">
 						<div class="col-md-8">
-							<input class="form-control" type="text" ng-model="data.user.userName" placeholder="Enter your Last.fm username"/>	
+							<input class="form-control" type="text" ng-model="user.userName" placeholder="Enter your Last.fm username"/>	
 						</div>
 						<div class="col-md-4">
 							<button class="btn btn-primary" ng-click="setArtistsForUser()" type="button">&nbsp;Go!&nbsp;</button>
 						</div>
 					</div>
-					<div ng-show="!data.selectUserVisibility()">
+					<div ng-show="!selectUserVisibility()">
 						<div class="row" >
 							<div class="col-md-3">
 								<button ng-click="resetUser()" class="btn btn-info btn-small"><span class="fui-arrow-left"></span> Set New User</button>
@@ -31,33 +31,37 @@
 						</div>
 						<hr />
 						<div class="user-selected row">
-							<h4>Artists for {{ data.user.userName }}</h4>
+							<h4>Artists for {{ user.userName }}</h4>
 						</div>
 					</div>
 				</div>
 
 				<div ng-controller="FilterController">
-					<div ng-show="data.filterVisibility()">
+					<div ng-show="filterVisibility()">
 						<div class="filter">
 							<div class="row filter-header">
-									<h6 ng-click="data.optionsShown = !data.optionsShown"><span ng-class="{'chevron-down': data.optionsShown}" class="fui-arrow-right"></span> Filter </h6>
+									<h6 ng-click="filter.optionsShown = !filter.optionsShown"><span ng-class="{'chevron-down': filter.optionsShown}" class="fui-arrow-right"></span> Filter </h6>
 							</div>
-							<div ng-show="data.optionsShown" class="row filter-options">
-								<div class="col-md-2">
+							<div ng-show="filter.optionsShown" class="row filter-options">
+								<div class="row">
+									<div class="col-md-12 filter-option">
 									<h6>Show...</h6>
-										<label><input type="radio" ng-model="artistsNum" value="10" /> 10 artists</label> <br/>
-										<label><input type="radio" ng-model="artistsNum" value="20" /> 20 artists</label> <br />
-										<label><input type="radio" ng-model="artistsNum" value="30" /> 30 artists</label><br />
-										<label><input type="radio" ng-model="artistsNum" value="40" /> 50 artists</label><br />
+										<label><input type="radio" ng-model="filter.limit" value="10" /> 10 artists  </label>
+										<label><input type="radio" ng-model="filter.limit" value="20" /> 20 artists  </label>
+										<label><input type="radio" ng-model="filter.limit" value="30" /> 30 artists  </label>
+										<label><input type="radio" ng-model="filter.limit" value="40" /> 50 artists  </label>
+									</div>
 								</div>
-								<div class="col-md-2">
+								<div class="row">
+									<div class="col-md-12 filter-option">
 									<h6>From...</h6>
-										<label><input type="radio" ng-model="timeVal" value="overall" /> All time</label><br />
-										<label><input type="radio" ng-model="timeVal" value="7day" /> 1 week</label> <br/>
-										<label><input type="radio" ng-model="timeVal" value="1month" /> 1 month</label> <br />
-										<label><input type="radio" ng-model="timeVal" value="3month" /> 3 months</label> <br />
-										<label><input type="radio" ng-model="timeVal" value="6month" /> 6 months</label><br />
-										<label><input type="radio" ng-model="timeVal" value="12month" /> 1 year</label><br />
+										<label><input type="radio" ng-model="filter.period" value="overall" /> All time  </label>
+										<label><input type="radio" ng-model="filter.period" value="7day" /> 1 week  </label> 
+										<label><input type="radio" ng-model="filter.period" value="1month" /> 1 month  </label>
+										<label><input type="radio" ng-model="filter.period" value="3month" /> 3 months  </label> 
+										<label><input type="radio" ng-model="filter.period" value="6month" /> 6 months  </label>
+										<label><input type="radio" ng-model="filter.period" value="12month" /> 1 year  </label>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -69,8 +73,8 @@
 						<div ng-show="data.artists.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div> 
 						<div ng-show="data.artists.currentTopArtists" class="row artists-container">
 							<div class="row">
-								<div class="col-md-3 panel artist-panel" ng-repeat="artist in data.artists.currentTopArtists">
-									<p ng-click="getFirstListen(artist.name)">{{ artist.name }} ({{ artist.playcount }})</p>
+								<div class="col-md-2 artist-panel" ng-repeat="artist in data.artists.currentTopArtists">
+									<p class="artist-name" ng-click="getFirstListen(artist.name)">{{ artist.name }} ({{ artist.playcount }})</p>
 								</div>
 							</div>
 						</div>
@@ -80,7 +84,7 @@
 				<div ng-controller="TracksController">
 					<div ng-show="data.tracks.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div>
 					<div ng-show="data.tracks.firstTrack" class="row">
-						<h5>You first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
+						<h5>{{ data.user.userName }} first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
 					</div>
 				</div>
 			</div>

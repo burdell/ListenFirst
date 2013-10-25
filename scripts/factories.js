@@ -20,10 +20,13 @@ var app = ListenFirst.app;
 
 		return {
 			getArtistsForUser: function(userName, numArtists) {
-				if (_.isUndefined(numArtists)) numArtists = 10;
-
+				var options = {
+					period: DataService.Filter.period,
+					limit: DataService.Filter.limit
+				};
+				
 				DataService.Artists.loading = true;
-				var url = buildUrl("user.gettopartists", { limit: numArtists });
+				var url = buildUrl("user.gettopartists", options);
 				return $http.get(url)
 					.then(function(result) {
 						DataService.Artists.loading = false;

@@ -42,6 +42,24 @@
 	padding: 10px 20px;
 }
 
+.filter-option label {
+	margin-left: 20px;
+}
+
 .no-border {
 	border-style: none;
 }
+
+.artist-name {
+	font-size: 14px;
+}
+
+.artist-panel:hover {
+	background-color: #ECF0F1;
+	cursor: pointer;
+	border-radius: 25px;
+};
+
+.artist-panel:active{
+	background-color: #BDC3C7;
+};
