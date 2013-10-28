@@ -1,5 +1,6 @@
 .header {
 	background-color: #2C3E50;
+	margin-bottom: 30px;
 }
 
 .header h1, .header a {
@@ -18,7 +19,7 @@
 	transform: rotate(90deg);
 }
 
-.filter {
+.accordion {
 	border-style: none solid solid;
 	border-width: 1px;
 	border-radius:25px;
@@ -29,7 +30,8 @@
 	padding-left: 20px;
 }
 
-.filter-header {
+.accordion-header {
+	padding: 0 15px;
 	border-radius:25px;
 	background-color: #ECF0F1;
 }
@@ -38,8 +40,8 @@
 	color: #7F8C8D;
 }
 
-.filter-options {
-	padding: 10px 20px;
+.accordion-body {
+	padding: 10px 20px;	
 }
 
 .filter-option label {

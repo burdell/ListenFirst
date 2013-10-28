@@ -29,9 +29,8 @@ app.controller('FilterController', ['$scope', 'DataService', 'LastFm', function(
 }]);
 
 app.controller('ArtistsController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
-	$scope.data = {
-		artists: DataService.Artists,
-	}
+	$scope.artists = DataService.Artists;
+	$scope.userName = DataService.User.userName;	
 	
 	$scope.getFirstListen = function(artistName) {
 		DataService.Tracks.firstTrack = LastFm.getFirstTrackForArtist(artistName);
