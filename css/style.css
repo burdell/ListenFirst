@@ -13,6 +13,17 @@
 	margin-top: 30px;
 }
 
+.first-select {
+	margin-top: 2px;
+	width: 100%;
+}
+
+.after-first {
+	display: inline;
+	margin-top: 2px;
+	width: 49%;
+}
+
 .chevron-down {
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
@@ -41,7 +52,7 @@
 }
 
 .accordion-body {
-	padding: 10px 20px;	
+	padding: 10px 30px;	
 }
 
 .filter-option label {
@@ -56,10 +67,9 @@
 	font-size: 14px;
 }
 
-.artist-panel:hover {
-	background-color: #ECF0F1;
+.artist-name:hover {
+	color: #E74C3C;
 	cursor: pointer;
-	border-radius: 25px;
 };
 
 .artist-panel:active{

@@ -8,7 +8,7 @@ app.directive('accordion', function() {
 		transclude: true,
 		link: function(scope, element, attrs) {
 			scope.accordion = {
-				optionsShown: false,
+				bodyShown: !_.isUndefined(attrs.defaultOpen),
 				headerText: attrs.headerText
 			};
 		}

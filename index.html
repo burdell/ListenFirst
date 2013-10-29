@@ -16,38 +16,47 @@
 				<script type="text/ng-template" id="accordionHeading.html">
 					<div class="accordion">
 						<div class="row accordion-header">
-							<h6 ng-click="accordion.optionsShown = !accordion.optionsShown">
-								<span ng-class="{'chevron-down': accordion.optionsShown}" class="fui-arrow-right"></span>
+							<h6 ng-click="accordion.bodyShown = !accordion.bodyShown">
+								<span ng-class="{'chevron-down': accordion.bodyShown}" class="fui-arrow-right"></span>
 								<span>{{ accordion.headerText }}</span>
 							</h6>
 						</div>
-						<div ng-show="accordion.optionsShown" class="row accordion-body" ng-transclude>
+						<div ng-show="accordion.bodyShown" class="row accordion-body" ng-transclude>
 						</div>
 					</div>
 				</script>
 
 				<div ng-controller="UserController">
-					<div class="row select-user" ng-show="selectUserVisibility()">
-						<div class="col-md-8">
-							<input class="form-control" type="text" ng-model="user.userName" placeholder="Enter your Last.fm username"/>	
-						</div>
-						<div class="col-md-4">
-							<button class="btn btn-primary" ng-click="setArtistsForUser()" type="button">&nbsp;Go!&nbsp;</button>
-						</div>
+					<div class="row select-user" ng-show="user.settingUserName">
+						<form ng-submit="setArtistsForUser()">
+							<div class="row">
+								<div class="col-md-12">
+									<input class="form-control" ng-model="user.userName" placeholder="Enter your Last.fm username"/>	
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2"></div>
+								<div class="col-md-8">
+									<button ng-show="user.lastSetUserName" ng-click="user.settingUserName=false" class="btn btn-warning after-first" type="button"><span class="fui-cross"></span>&nbsp;Nope.&nbsp;</button>
+									<button ng-class="{ 'first-select': !user.lastSetUserName, 'after-first': user.lastSetUserName }" class="btn btn-primary" ng-disabled="!user.userName" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button>
+								</div>
+								<div class="col-md-2"></div>
+							</div>
+						</form>
 					</div>
-					<div ng-show="!selectUserVisibility()">
+					<div ng-show="!user.settingUserName">
 						<div class="row" >
 							<div class="col-md-12">
-							<button ng-click="resetUser()" class="btn btn-info btn-small"><span class="fui-arrow-left"></span> Set New User</button>
+							<button ng-click="resetUser()" class="btn btn-info btn-small"><span class="fui-user"></span>  Set New User</button>
 							</div>
 						</div>
-						<hr />
-						<h4>{{ user.userName }}</h4>
 					</div>
+					<hr />
+					<h4>{{ user.lastSetUserName }}</h4>
 				</div>
 
 				<div ng-controller="FilterController">
-					<div ng-show="filterVisibility()">
+					<div ng-show="user.lastSetUserName">
 						<accordion header-text="Filter">
 							<div class="row">
 								<div class="col-md-12 filter-option">
@@ -75,12 +84,17 @@
 				
 				<div ng-controller="ArtistsController">
 					<fieldset>
-							<div ng-show="artists.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div> 
-							<div ng-show="artists.currentTopArtists" class="artists-container">
-								<accordion header-text="Artists">
-									<div class="row">
-										<div class="col-md-2 artist-panel" ng-repeat="artist in artists.currentTopArtists">
-											<p class="artist-name" ng-click="getFirstListen(artist.name)">{{ artist.name }} ({{ artist.playcount }})</p>
+							<div ng-show="user.lastSetUserName" class="artists-container">
+								<accordion header-text="Top Artists" default-open>
+									<div ng-show="artists.loading == true" class="row">
+										<div class="col-md-6"></div>
+										<div class="spinner"><img src="images/ajax-loader.gif" ></div>
+									</div>
+									<div ng-show="artists.currentTopArtists" class="artists-container">
+										<div class="row">
+											<div class="col-md-2 artist-panel" ng-repeat="artist in artists.currentTopArtists">
+												<p class="artist-name" title="{{ artist.playcount }} plays" ng-click="getFirstListen(artist.name)">{{ artist.name }}</p>
+											</div>
 										</div>
 									</div>
 								</accordion>
@@ -91,7 +105,7 @@
 				<div ng-controller="TracksController">
 					<div ng-show="data.tracks.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div>
 					<div ng-show="data.tracks.firstTrack" class="row">
-						<h5>{{ data.user.userName }} first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
+						<h5>{{ data.user.lastSetUserName }} first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
 					</div>
 				</div>
 			</div>

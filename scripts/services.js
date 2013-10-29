@@ -6,33 +6,22 @@ var app = ListenFirst.app;
 	app.service('DataService', function(){
 		return {
 			User: {
-				userName: null
+				settingUserName: true,
+				userName: null,
+				lastSetUserName: null
 			},
 			Filter: {
-				optionsShown: false,
 				period: "overall",
 				limit: 10
 			},
 			Artists: {
 				loading: false,
-				currentTopArtists: []
+				currentTopArtists: [],
+
 			},
 			Tracks: {
 				loading: false,
 				firstTrack: null
-			},
-			cache: {
-
-			},
-			resetUser: function(){
-				this.User.userName = null;
-				this.Artists.currentTopArtists = [];
-				this.Tracks.firstTrack = null;
-				this.Artists.loading = false;
-				this.Tracks.loading = false;
-				this.Filter.optionsShown = false;
-				this.Filter.period = "overall";
-				this.Filter.limit = 10;
 			}
 		}
 	});
