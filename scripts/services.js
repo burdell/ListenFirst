@@ -24,9 +24,9 @@ var app = ListenFirst.app;
 				firstTrack: null
 			},
 			Errors: {
-				userErrors = [],
-				artistErrors = [],
-				trackErrors = []
+				userErrors: [],
+				artistErrors: [],
+				trackErrors: []
 			}
 		}
 	});
