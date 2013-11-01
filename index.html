@@ -25,7 +25,7 @@
 						</div>
 					</div>
 				</script>
-
+				
 				<div ng-controller="UserController">
 					<div class="row select-user" ng-show="user.settingUserName">
 						<form ng-submit="setArtistsForUser()">
@@ -98,6 +98,14 @@
 										</div>
 									</div>
 								</accordion>
+								<div class="artist-input-container row">
+									<p>or enter an artist in your library...</p>
+									<form ng-submit="getFirstListen(artistSearchTerm)">
+										<div class="col-md-7"><input class="form-control" type="text" ng-model="artistSearchTerm" /></div>
+										<div class="col-md-5"><button style="width:100%;" class="btn btn-primary" ng-disabled="!artistSearchTerm" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button></div>
+									</form>
+								</div>
+								<hr />
 							</div>
 					</fieldset>
 				</div>

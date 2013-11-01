@@ -75,3 +75,7 @@
 .artist-panel:active{
 	background-color: #BDC3C7;
 };
+
+.full-width {
+	width: 100%;
+}

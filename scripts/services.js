@@ -22,6 +22,11 @@ var app = ListenFirst.app;
 			Tracks: {
 				loading: false,
 				firstTrack: null
+			},
+			Errors: {
+				userErrors = [],
+				artistErrors = [],
+				trackErrors = []
 			}
 		}
 	});
