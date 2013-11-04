@@ -14,3 +14,14 @@ app.directive('accordion', function() {
 		}
 	}
 });
+
+app.directive('error', ['ErrorService', function(ErrorService) {
+	return {
+		restrict: 'E',
+		templateUrl: 'error.html',
+		scope: true,
+		link: function(scope, element, attrs) {
+			scope.errorList = ErrorService[attrs.for].errorList;
+		}
+	}
+}]);	

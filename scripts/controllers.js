@@ -1,26 +1,30 @@
 var ListenFirst = ListenFirst || {};
 var app = ListenFirst.app;
 
-app.controller('UserController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
+app.controller('UserController', ['$scope', 'DataService', 'LastFm', 'ErrorService', function($scope, DataService, LastFm, ErrorService){
 	$scope.user = DataService.User;
 
 	$scope.setArtistsForUser = function(userName) {
 		if (!DataService.User.userName) return;
-		debugger;
-		DataService.Artists.currentTopArtists = LastFm.getArtistsForUser();
-		DataService.User.lastSetUserName = DataService.User.userName;
-		DataService.User.settingUserName = false;
+		LastFm.getArtistsForUser().then(function(result){
+			if (result.valid) {
+				DataService.Artists.currentTopArtists = result.data;
+				DataService.User.lastSetUserName = DataService.User.userName;
+				DataService.User.settingUserName = false;
+			}
+		});
 	}
+
 	$scope.resetUser = function() {
 		DataService.User.userName = null;
 		DataService.User.settingUserName = true;
+		ErrorService.User.errorList.length = 0;
 	}
 }]);
 
 app.controller('FilterController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
 	$scope.filter = DataService.Filter;
 	$scope.user = DataService.User;
-
 	$scope.$watch('filter', function(){
 		if (DataService.User.userName) {
 			DataService.Artists.currentTopArtists = LastFm.getArtistsForUser();

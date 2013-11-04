@@ -2,7 +2,7 @@ var ListenFirst = ListenFirst || {};
 var app = ListenFirst.app;
 
 
-app.factory('LastFm', function($http, DataService){
+app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, DataService, ErrorService){
 	var apiKey = "22648f0dcab32971882df69c27c6d8c9";
 	var apiRoot = "http://ws.audioscrobbler.com/2.0/";
 	
@@ -24,12 +24,18 @@ app.factory('LastFm', function($http, DataService){
 				limit: DataService.Filter.limit
 			};
 
-			DataService.Artists.loading = true;
+			DataService.User.loading = true;
 			var url = buildUrl("user.gettopartists", options);
 			return $http.get(url)
 				.then(function(result) {
-					DataService.Artists.loading = false;
-					return result.data.topartists.artist;
+					DataService.User.loading = false;
+					var returnObj = {
+						valid: ErrorService.User.validate(result)
+					};
+					if (returnObj.valid) {
+						returnObj.data = result.data.topartists.artist;
+					}
+					return returnObj;
 				});
 		},
 		getUserTracksForArtist: function(artist) {
@@ -58,5 +64,5 @@ app.factory('LastFm', function($http, DataService){
 			});
 		}
 	}
-});
+}]);
 	

@@ -25,18 +25,35 @@
 						</div>
 					</div>
 				</script>
+
+				<script type="text/ng-template" id="error.html">
+					<div class="row">
+						<div class="col-md-2"></div>
+						<div class="col-md-8" ng-show="errorList.length > 0">
+							<p class="error-text" ng-repeat="error in errorList">
+								{{ error }}
+							</p>
+						</div>
+						<div class="col-md-2"></div>
+					</div>
+				</script>
 				
 				<div ng-controller="UserController">
 					<div class="row select-user" ng-show="user.settingUserName">
 						<form ng-submit="setArtistsForUser()">
 							<div class="row">
+								<error for="User"></error>
 								<div class="col-md-12">
 									<input class="form-control" ng-model="user.userName" placeholder="Enter your Last.fm username"/>	
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-2"></div>
-								<div class="col-md-8">
+								<div class="col-md-8" ng-show="user.loading == true">
+									<div class="col-md-6"></div>
+									<div class="spinner"><img src="images/ajax-loader.gif" ></div>
+								</div>
+								<div class="col-md-8" ng-hide="user.loading == true" >
 									<button ng-show="user.lastSetUserName" ng-click="user.settingUserName=false" class="btn btn-warning after-first" type="button"><span class="fui-cross"></span>&nbsp;Nope.&nbsp;</button>
 									<button ng-class="{ 'first-select': !user.lastSetUserName, 'after-first': user.lastSetUserName }" class="btn btn-primary" ng-disabled="!user.userName" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button>
 								</div>
@@ -61,21 +78,19 @@
 							<div class="row">
 								<div class="col-md-12 filter-option">
 								<h6>Show...</h6>
-									<label><input type="radio" ng-model="filter.limit" value="10" /> 10 artists  </label>
-									<label><input type="radio" ng-model="filter.limit" value="20" /> 20 artists  </label>
-									<label><input type="radio" ng-model="filter.limit" value="30" /> 30 artists  </label>
-									<label><input type="radio" ng-model="filter.limit" value="40" /> 50 artists  </label>
+									<label ng-repeat="limit in filter.limitData"> 
+										<input type="radio" ng-checked="limit.value == filter.limit" ng-model="filter.limit" value="{{ limit.value }}" />
+										{{ limit.text }}
+									</label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12 filter-option">
 								<h6>From...</h6>
-									<label><input type="radio" ng-model="filter.period" value="7day" /> 1 week  </label> 
-									<label><input type="radio" ng-model="filter.period" value="1month" /> 1 month  </label>
-									<label><input type="radio" ng-model="filter.period" value="3month" /> 3 months  </label> 
-									<label><input type="radio" ng-model="filter.period" value="6month" /> 6 months  </label>
-									<label><input type="radio" ng-model="filter.period" value="12month" /> 1 year  </label>
-									<label><input type="radio" ng-model="filter.period" value="overall" /> All time  </label>
+									<label ng-repeat="period in filter.periodData"> 
+											<input type="radio" ng-checked="period.value == filter.period" ng-model="filter.period" value="{{ period.value }}" />
+										{{ period.text }}
+									</label>
 								</div>
 							</div>
 						</accordion>
@@ -86,10 +101,6 @@
 					<fieldset>
 							<div ng-show="user.lastSetUserName" class="artists-container">
 								<accordion header-text="Top Artists" default-open>
-									<div ng-show="artists.loading == true" class="row">
-										<div class="col-md-6"></div>
-										<div class="spinner"><img src="images/ajax-loader.gif" ></div>
-									</div>
 									<div ng-show="artists.currentTopArtists" class="artists-container">
 										<div class="row">
 											<div class="col-md-2 artist-panel" ng-repeat="artist in artists.currentTopArtists">
@@ -98,6 +109,7 @@
 										</div>
 									</div>
 								</accordion>
+								<error for="Artist"></error>
 								<div class="artist-input-container row">
 									<p>or enter an artist in your library...</p>
 									<form ng-submit="getFirstListen(artistSearchTerm)">
@@ -113,6 +125,7 @@
 				<div ng-controller="TracksController">
 					<div ng-show="data.tracks.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div>
 					<div ng-show="data.tracks.firstTrack" class="row">
+						<error for="Track"></error>
 						<h5>{{ data.user.lastSetUserName }} first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
 					</div>
 				</div>

@@ -79,3 +79,9 @@
 .full-width {
 	width: 100%;
 }
+
+.error-text {
+	text-align: center;
+	color: #C0392B;
+	margin-top: 5px;
+}
