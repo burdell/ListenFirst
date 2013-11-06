@@ -45,12 +45,17 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 			var url = buildUrl(method, { artist: artist });
 			return $http.get(url)
 				.then(function(result){
-					var totalPages = Number(result.data.artisttracks['@attr'].totalPages);
-					if (totalPages === 1) {
-						return result;
-					} else {
-						var moreTracks = buildUrl(method, { artist: artist, page: totalPages });
-						return $http.get(moreTracks);
+					var returnObj = {
+						valid: ErrorService.Artist.validate(result);
+					};
+					if (returnObj.valid) {
+						var totalPages = Number(result.data.artisttracks['@attr'].totalPages);
+						if (totalPages === 1) {
+							return result;
+						} else {
+							var moreTracks = buildUrl(method, { artist: artist, page: totalPages });
+							return $http.get(moreTracks);
+						}
 					}
 				})
 				.then(function(result){
