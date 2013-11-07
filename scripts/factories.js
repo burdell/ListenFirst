@@ -16,7 +16,6 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 		}
 		return url;
 	}
-
 	return {
 		getArtistsForUser: function(userName, numArtists) {
 			var options = {
@@ -29,26 +28,23 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 			return $http.get(url)
 				.then(function(result) {
 					DataService.User.loading = false;
-					var returnObj = {
-						valid: ErrorService.User.validate(result)
-					};
-					if (returnObj.valid) {
-						returnObj.data = result.data.topartists.artist;
+					var valid = ErrorService.User.validate(result);
+					if (valid) {
+						DataService.Artists.currentTopArtists = result.data.topartists.artist
+						DataService.User.lastSetUserName = DataService.User.userName;
+						DataService.User.settingUserName = false;
 					}
-					return returnObj;
 				});
 		},
 		getUserTracksForArtist: function(artist) {
 			DataService.Tracks.loading = true;
-
 			var method = "user.getartisttracks";
 			var url = buildUrl(method, { artist: artist });
 			return $http.get(url)
 				.then(function(result){
-					var returnObj = {
-						valid: ErrorService.Artist.validate(result);
-					};
-					if (returnObj.valid) {
+					var artistValid = ErrorService.Artist.validate(result);
+					var tracksValid = artistValid && ErrorService.Track.validate(result);
+					if (tracksValid) {
 						var totalPages = Number(result.data.artisttracks['@attr'].totalPages);
 						if (totalPages === 1) {
 							return result;
@@ -57,10 +53,18 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 							return $http.get(moreTracks);
 						}
 					}
+					return tracksValid;
 				})
 				.then(function(result){
 					DataService.Tracks.loading = false;
-					return result.data.artisttracks.track;
+					if (result !== false) {
+						var firstTracks = result.data.artisttracks.track;
+						//wtf last.fm ... if page only has 1, you just return the track object instead of array?
+						if (!_.isArray(firstTracks)) {
+							firstTracks = [ firstTracks ];
+						}
+						DataService.Tracks.firstTrack =  firstTracks.pop();
+					}
 				});
 		},
 		getFirstTrackForArtist: function(artist) {

@@ -109,9 +109,8 @@
 										</div>
 									</div>
 								</accordion>
-								<error for="Artist"></error>
 								<div class="artist-input-container row">
-									<p>or enter an artist in your library...</p>
+									<p>or enter an artist in their library...</p>
 									<form ng-submit="getFirstListen(artistSearchTerm)">
 										<div class="col-md-7"><input class="form-control" type="text" ng-model="artistSearchTerm" /></div>
 										<div class="col-md-5"><button style="width:100%;" class="btn btn-primary" ng-disabled="!artistSearchTerm" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button></div>
@@ -123,10 +122,20 @@
 				</div>
 
 				<div ng-controller="TracksController">
-					<div ng-show="data.tracks.loading == true" class="spinner"><img src="images/ajax-loader.gif" /></div>
-					<div ng-show="data.tracks.firstTrack" class="row">
-						<error for="Track"></error>
-						<h5>{{ data.user.lastSetUserName }} first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
+					<div class="row">
+						<div ng-hide="data.tracks.loading == true">
+							<error for="Artist"></error>
+							<error for="Track"></error>
+						</div>
+						<div ng-show="data.tracks.loading == true" class="spinner">
+							<div class="col-md-6"></div>
+							<img src="images/ajax-loader.gif" />
+						</div>
+					</div>
+					<div class="row">
+						<div ng-show="data.tracks.firstTrack && data.tracks.loading == false" class="row">
+							<h5>{{ data.user.lastSetUserName }} first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
+						</div>
 					</div>
 				</div>
 			</div>
