@@ -13,21 +13,7 @@ var app = ListenFirst.app;
 			},
 			Filter: {
 				period: "overall",
-				periodData: [
-					{ value: 10, text: "10 artists" },
-					{ value: 20, text: "20 artists" },
-					{ value: 30, text: "30 artists" },
-					{ value: 50, text: "50 artists" }					
-				],
-				limit: 10,
-				limitData: [
-					{ value: "7day", text: "1 week" },
-					{ value: "1month", text: "1 month" },
-					{ value: "3month", text: "3 months" },
-					{ value: "6month", text: "6 months" },
-					{ value: "12month", text: "1 year" },
-					{ value: "overall", text: "All time" }
-				]
+				limit: 10
 			},
 			Artists: {
 				currentTopArtists: []

@@ -75,25 +75,27 @@
 				<div ng-controller="FilterController">
 					<div ng-show="user.lastSetUserName">
 						<accordion header-text="Filter">
-							<div class="row">
-								<div class="col-md-12 filter-option">
-								<h6>Show...</h6>
-									<label ng-repeat="limit in filter.limitData"> 
-										<input type="radio" ng-checked="limit.value == filter.limit" ng-model="filter.limit" value="{{ limit.value }}" />
-										{{ limit.text }}
-									</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12 filter-option">
-								<h6>From...</h6>
-									<label ng-repeat="period in filter.periodData"> 
-											<input type="radio" ng-checked="period.value == filter.period" ng-model="filter.period" value="{{ period.value }}" />
-										{{ period.text }}
-									</label>
-								</div>
-							</div>
-						</accordion>
+	                        <div class="row">
+	                                <div class="col-md-12 filter-option">
+	                                <h6>Show...</h6>
+	                                        <label><input type="radio" ng-model="filter.limit" value="10" /> 10 artists  </label>
+	                                        <label><input type="radio" ng-model="filter.limit" value="20" /> 20 artists  </label>
+	                                        <label><input type="radio" ng-model="filter.limit" value="30" /> 30 artists  </label>
+	                                        <label><input type="radio" ng-model="filter.limit" value="40" /> 50 artists  </label>
+	                                </div>
+	                        </div>
+	                        <div class="row">
+	                                <div class="col-md-12 filter-option">
+	                                <h6>From...</h6>
+	                                        <label><input type="radio" ng-model="filter.period" value="7day" /> 1 week  </label> 
+	                                        <label><input type="radio" ng-model="filter.period" value="1month" /> 1 month  </label>
+	                                        <label><input type="radio" ng-model="filter.period" value="3month" /> 3 months  </label> 
+	                                        <label><input type="radio" ng-model="filter.period" value="6month" /> 6 months  </label>
+	                                        <label><input type="radio" ng-model="filter.period" value="12month" /> 1 year  </label>
+	                                        <label><input type="radio" ng-model="filter.period" value="overall" /> All time  </label>
+	                                </div>
+	                        </div>
+	                </accordion>
 					</div>
 				</div>
 				
@@ -102,7 +104,14 @@
 							<div ng-show="user.lastSetUserName" class="artists-container">
 								<accordion header-text="Top Artists" default-open>
 									<div ng-show="artists.currentTopArtists" class="artists-container">
-										<div class="row">
+										<div class="row" ng-show="user.loading == true">
+											<div class="col-md-2"></div>
+											<div class="col-md-8">
+												<div class="col-md-6"></div>
+												<div class="spinner"><img src="images/ajax-loader.gif" ></div>
+											</div>
+										</div>
+										<div class="row" ng-hide="user.loading == true">
 											<div class="col-md-2 artist-panel" ng-repeat="artist in artists.currentTopArtists">
 												<p class="artist-name" title="{{ artist.playcount }} plays" ng-click="getFirstListen(artist.name)">{{ artist.name }}</p>
 											</div>
