@@ -3,29 +3,40 @@ var app = ListenFirst.app;
 
 
 app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, DataService, ErrorService){
-	var apiKey = "22648f0dcab32971882df69c27c6d8c9";
 	var apiRoot = "http://ws.audioscrobbler.com/2.0/";
-	
-	function buildUrl(method, paramList){
-		var url = apiRoot + "?format=json&limit=50&method=" + method 
-			+ "&user=" + DataService.User.userName + "&api_key=" + apiKey;
-		if (paramList){
-			_.each(paramList, function(value, key){
-				url += "&" + key + "=" + value;
-			})
-		}
-		return url;
+	var defaultParams = {
+		api_key: "22648f0dcab32971882df69c27c6d8c9",
+		format: "json"
 	}
+
+	function getParams(paramList){
+		paramList.user = DataService.User.userName;
+		return _.extend(paramList, defaultParams);
+	}
+
+	function setArtistImageUrl(artistName) {
+			var artist = _.findWhere(DataService.Artists.currentTopArtists, function(artist){
+								return artist.name == artistName;
+						});
+			if (artist) {
+				DataService.Tracks.artistImageUrl = artist.image[3]['#text'];
+			} else {
+				var params = getParams({ method: "artist.info", artist: artistName });
+				$http({ method: "GET", url: apiRoot, params: params }).then(function(response) {
+					DataService.Tracks.artistImageUrl = response.data.artist.image[3]['#text'];
+				});	
+			}
+		}
+
 	return {
 		getArtistsForUser: function(userName, numArtists) {
-			var options = {
-				period: DataService.Filter.period,
-				limit: DataService.Filter.limit
-			};
-
 			DataService.User.loading = true;
-			var url = buildUrl("user.gettopartists", options);
-			return $http.get(url)
+			var params = getParams({
+				period: DataService.Filter.period,
+				limit: DataService.Filter.limit,
+				method: "user.gettopartists"
+			});
+			return $http({ method: "GET", url: apiRoot, params: params})
 				.then(function(result) {
 					DataService.User.loading = false;
 					var valid = ErrorService.User.validate(result);
@@ -38,22 +49,25 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 		},
 		getUserTracksForArtist: function(artist) {
 			DataService.Tracks.loading = true;
-			var method = "user.getartisttracks";
-			var url = buildUrl(method, { artist: artist });
-			return $http.get(url)
+			var params = getParams({
+				method: "user.getartisttracks",
+				artist: artist
+			});
+			return $http({ method: "GET", url: apiRoot, params: params })
 				.then(function(result){
-					var artistValid = ErrorService.Artist.validate(result);
-					var tracksValid = artistValid && ErrorService.Track.validate(result);
-					if (tracksValid) {
-						var totalPages = Number(result.data.artisttracks['@attr'].totalPages);
+					var valid = ErrorService.Artist.validate(result) && ErrorService.Track.validate(result);
+					if (valid) {
+						var trackData = result.data.artisttracks['@attr']
+						setArtistImageUrl(trackData.artist);
+						var totalPages = Number(trackData.totalPages);
 						if (totalPages === 1) {
 							return result;
 						} else {
-							var moreTracks = buildUrl(method, { artist: artist, page: totalPages });
-							return $http.get(moreTracks);
+							params.page = totalPages;
+							return $http({ method: "GET", url: apiRoot, params: params});
 						}
 					}
-					return tracksValid;
+					return valid;
 				})
 				.then(function(result){
 					DataService.Tracks.loading = false;
@@ -63,14 +77,9 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 						if (!_.isArray(firstTracks)) {
 							firstTracks = [ firstTracks ];
 						}
-						DataService.Tracks.firstTrack =  firstTracks.pop();
+						DataService.Tracks.firstTrack = firstTracks.pop();
 					}
 				});
-		},
-		getFirstTrackForArtist: function(artist) {
-			return this.getUserTracksForArtist(artist).then(function(trackList){
-				return _.last(trackList);
-			});
 		}
 	}
 }]);

@@ -20,7 +20,8 @@ var app = ListenFirst.app;
 			},
 			Tracks: {
 				loading: false,
-				firstTrack: null
+				firstTrack: null,
+				artistImageUrl: ""
 			}
 		}
 	});

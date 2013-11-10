@@ -32,8 +32,8 @@ app.controller('ArtistsController', ['$scope', 'DataService', 'LastFm', function
 	$scope.artists = DataService.Artists;
 	$scope.user = DataService.User;
 
-	$scope.getFirstListen = function(artistName) {
-		LastFm.getFirstTrackForArtist(artistName);
+	$scope.getFirstListen = function(artistId) {
+		LastFm.getUserTracksForArtist(artistId);
 	}
 
 	$scope.$watch('user.lastSetUserName', function(newVal, oldVal) {
@@ -44,13 +44,7 @@ app.controller('ArtistsController', ['$scope', 'DataService', 'LastFm', function
 }]);
 
 app.controller('TracksController', ['$scope', 'DataService', function($scope, DataService){		
-	$scope.data = {
-		tracks: DataService.Tracks,
-		user: DataService.User
-	}
-
-	$scope.showLoader = function(){
-		
-	}
+	$scope.tracks = DataService.Tracks;
+	$scope.user = DataService.User;
 }]);
 

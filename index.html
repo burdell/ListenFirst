@@ -132,18 +132,28 @@
 
 				<div ng-controller="TracksController">
 					<div class="row">
-						<div ng-hide="data.tracks.loading == true">
+						<div ng-hide="tracks.loading == true">
 							<error for="Artist"></error>
 							<error for="Track"></error>
 						</div>
-						<div ng-show="data.tracks.loading == true" class="spinner">
-							<div class="col-md-6"></div>
+						<div class="col-md-6"></div>
+						<div ng-show="tracks.loading == true" class="spinner">
 							<img src="images/ajax-loader.gif" />
 						</div>
-					</div>
-					<div class="row">
-						<div ng-show="data.tracks.firstTrack && data.tracks.loading == false" class="row">
-							<h5>{{ data.user.lastSetUserName }} first listened to {{ data.tracks.firstTrack.artist['#text'] }} on {{ data.tracks.firstTrack.date['#text'] }}</h5>
+						<div ng-show="tracks.firstTrack && tracks.loading == false">
+							<div class="first-listen-container col-md-12">
+								<div class="row">
+									<div class="col-md-12">
+										<h3>{{ tracks.firstTrack.artist['#text'] }}</h3>
+									</div>
+									<div class="circle col-md-12">
+										<a style="background-image: url({{ tracks.artistImageUrl }});"></a>
+									</div>
+								</div>
+								<div class="row">
+									<p>{{ user.lastSetUserName }} first listened to {{ tracks.firstTrack.artist['#text'] }} on {{ tracks.firstTrack.date['#text'] }}</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
