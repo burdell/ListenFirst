@@ -14,16 +14,19 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 		return _.extend(paramList, defaultParams);
 	}
 
-	function setArtistImageUrl(artistName) {
+	function setArtistData(artistName) {
 			var artist = _.findWhere(DataService.Artists.currentTopArtists, function(artist){
 								return artist.name == artistName;
 						});
 			if (artist) {
 				DataService.Tracks.artistImageUrl = artist.image[3]['#text'];
+				DataService.Tracks.artistPlayCount = artist.playcount;
 			} else {
-				var params = getParams({ method: "artist.info", artist: artistName });
+				var params = getParams({ method: "artist.info", artist: artistName, username: DataService.User.userName });
 				$http({ method: "GET", url: apiRoot, params: params }).then(function(response) {
+					debugger;
 					DataService.Tracks.artistImageUrl = response.data.artist.image[3]['#text'];
+					DataService.Tracks.artistPlayCount = response.data.artist.stats.userplaycount;
 				});	
 			}
 		}
@@ -58,7 +61,7 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 					var valid = ErrorService.Artist.validate(result) && ErrorService.Track.validate(result);
 					if (valid) {
 						var trackData = result.data.artisttracks['@attr']
-						setArtistImageUrl(trackData.artist);
+						setArtistData(trackData.artist);
 						var totalPages = Number(trackData.totalPages);
 						if (totalPages === 1) {
 							return result;
@@ -77,6 +80,7 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 						if (_.isArray(firstTrack)) {
 							firstTrack = firstTrack.pop();
 						}
+						debugger;
 						DataService.Tracks.setFirstTrack(firstTrack);
 					}
 				});

@@ -151,7 +151,9 @@
 									</div>
 								</div>
 								<div class="row">
-									<p>{{ user.lastSetUserName }} first listened to <strong>{{ tracks.firstTrack.artist['#text'] }}</strong> on <strong>{{ tracks.firstTrack.date['#text'] }}</strong></p>
+									<p>First listen: <strong>{{ tracks.firstTrack.date['#text'] }}</strong></p>
+									<p>First track: <strong>{{ tracks.firstTrack.name }}</strong> <span ng-show="tracks.firstTrack.album['#text']">from <strong>{{ tracks.firstTrack.album['#text'] }}</strong></span></p>
+									<p>Listens: {{ tracks.artistPlayCount }}</p>
 								</div>
 							</div>
 						</div>

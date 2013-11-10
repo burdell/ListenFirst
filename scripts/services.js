@@ -22,6 +22,7 @@ var app = ListenFirst.app;
 				loading: false,
 				firstTrack: null,
 				artistImageUrl: "",
+				artistPlayCount: null,
 				setFirstTrack: function(firstTrack) {
 					var dateMoment = moment(firstTrack.date['#text']);
 					firstTrack.date['#text'] = dateMoment.format("MMMM D, YYYY") + " (" + dateMoment.fromNow() + ")";
