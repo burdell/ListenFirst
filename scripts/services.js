@@ -21,7 +21,12 @@ var app = ListenFirst.app;
 			Tracks: {
 				loading: false,
 				firstTrack: null,
-				artistImageUrl: ""
+				artistImageUrl: "",
+				setFirstTrack: function(firstTrack) {
+					var dateMoment = moment(firstTrack.date['#text']);
+					firstTrack.date['#text'] = dateMoment.format("MMMM D, YYYY") + " (" + dateMoment.fromNow() + ")";
+					this.firstTrack = firstTrack;
+				}
 			}
 		}
 	});

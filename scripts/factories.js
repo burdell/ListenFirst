@@ -72,12 +72,12 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 				.then(function(result){
 					DataService.Tracks.loading = false;
 					if (result !== false) {
-						var firstTracks = result.data.artisttracks.track;
+						var firstTrack = result.data.artisttracks.track;
 						//wtf last.fm ... if page only has 1, you just return the track object instead of array?
-						if (!_.isArray(firstTracks)) {
-							firstTracks = [ firstTracks ];
+						if (_.isArray(firstTrack)) {
+							firstTrack = firstTrack.pop();
 						}
-						DataService.Tracks.firstTrack = firstTracks.pop();
+						DataService.Tracks.setFirstTrack(firstTrack);
 					}
 				});
 		}

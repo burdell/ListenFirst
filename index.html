@@ -151,7 +151,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<p>{{ user.lastSetUserName }} first listened to {{ tracks.firstTrack.artist['#text'] }} on {{ tracks.firstTrack.date['#text'] }}</p>
+									<p>{{ user.lastSetUserName }} first listened to <strong>{{ tracks.firstTrack.artist['#text'] }}</strong> on <strong>{{ tracks.firstTrack.date['#text'] }}</strong></p>
 								</div>
 							</div>
 						</div>
@@ -162,8 +162,9 @@
 
 		<!-- vendor scripts -->	
 		<script type="text/javascript" src="scripts/vendor/lodash.js"></script>
+		<script type="text/javascript" src="scripts/vendor/moment.min.js"></script>
 		<script type="text/javascript" src="scripts/vendor/angular.min.js"></script>
-		
+
 		<!-- not vendor scripts -->
 		<script type="text/javascript" src="scripts/app.js"></script>
 		<script type="text/javascript" src="scripts/factories.js"></script>
