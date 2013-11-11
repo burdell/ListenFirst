@@ -19,14 +19,15 @@ var app = ListenFirst.app;
 				currentTopArtists: []
 			},
 			Tracks: {
-				loading: false,
 				firstTrack: null,
+				lastTrack: null,
+				loading: false,
 				artistImageUrl: "",
 				artistPlayCount: null,
-				setFirstTrack: function(firstTrack) {
-					var dateMoment = moment(firstTrack.date['#text']);
-					firstTrack.date['#text'] = dateMoment.format("MMMM D, YYYY") + " (" + dateMoment.fromNow() + ")";
-					this.firstTrack = firstTrack;
+				setTrack: function(track, whichTrack) {
+					var dateMoment = moment(track.date['#text']);
+					track.date['#text'] = dateMoment.format("MMMM D, YYYY") + " (" + dateMoment.fromNow() + ")";
+					this[whichTrack] = track;
 				}
 			}
 		}

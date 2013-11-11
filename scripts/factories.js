@@ -24,7 +24,6 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 			} else {
 				var params = getParams({ method: "artist.info", artist: artistName, username: DataService.User.userName });
 				$http({ method: "GET", url: apiRoot, params: params }).then(function(response) {
-					debugger;
 					DataService.Tracks.artistImageUrl = response.data.artist.image[3]['#text'];
 					DataService.Tracks.artistPlayCount = response.data.artist.stats.userplaycount;
 				});	
@@ -62,6 +61,11 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 					if (valid) {
 						var trackData = result.data.artisttracks['@attr']
 						setArtistData(trackData.artist);
+
+						var tracks = result.data.artisttracks.track;
+						var lastTrack = _.isArray(tracks) ? tracks[0] : tracks;
+						DataService.Tracks.setTrack(lastTrack, "lastTrack")
+
 						var totalPages = Number(trackData.totalPages);
 						if (totalPages === 1) {
 							return result;
@@ -75,13 +79,12 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 				.then(function(result){
 					DataService.Tracks.loading = false;
 					if (result !== false) {
-						var firstTrack = result.data.artisttracks.track;
-						//wtf last.fm ... if page only has 1, you just return the track object instead of array?
+						var trackList = result.data.artisttracks.track;
+						var firstTrack = trackList;
 						if (_.isArray(firstTrack)) {
-							firstTrack = firstTrack.pop();
+							firstTrack = trackList.pop();
 						}
-						debugger;
-						DataService.Tracks.setFirstTrack(firstTrack);
+						DataService.Tracks.setTrack(firstTrack, "firstTrack");
 					}
 				});
 		}
