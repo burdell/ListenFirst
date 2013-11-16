@@ -3,7 +3,7 @@ var app = ListenFirst.app;
 
 (function(){
 
-	app.service('DataService', ['ErrorService', function(errorService){
+	app.service('DataService', ['ErrorService', 'TimezoneOffset', function(errorService, timezoneOffset){
 		return {
 			User: {
 				settingUserName: true,
@@ -24,8 +24,10 @@ var app = ListenFirst.app;
 				loading: false,
 				artistImageUrl: "",
 				artistPlayCount: null,
+				timezoneOffset: null,
 				setTrack: function(track, whichTrack) {
-					var dateMoment = moment(track.date['#text']);
+					//HALLO WEER LASTDAUGHTFM OUT O' JOLLY ENGLAN
+					var dateMoment = moment(track.date['#text']).subtract('minutes', timezoneOffset);
 					track.date['#text'] = dateMoment.format("MMMM D, YYYY") + " (" + dateMoment.fromNow() + ")";
 					this[whichTrack] = track;
 				},
