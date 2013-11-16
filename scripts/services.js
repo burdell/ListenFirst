@@ -3,7 +3,7 @@ var app = ListenFirst.app;
 
 (function(){
 
-	app.service('DataService', function(){
+	app.service('DataService', ['ErrorService', function(errorService){
 		return {
 			User: {
 				settingUserName: true,
@@ -13,7 +13,7 @@ var app = ListenFirst.app;
 			},
 			Filter: {
 				period: "overall",
-				limit: 10
+				limit: 30
 			},
 			Artists: {
 				currentTopArtists: []
@@ -28,10 +28,21 @@ var app = ListenFirst.app;
 					var dateMoment = moment(track.date['#text']);
 					track.date['#text'] = dateMoment.format("MMMM D, YYYY") + " (" + dateMoment.fromNow() + ")";
 					this[whichTrack] = track;
+				},
+				resetTrack: function(){
+					this.firstTrack = null;
+					this.lastTrack = null;
+					this.artistImageUrl = "";
+					this.artistPlayCount = null;
+					errorService.Track.errorList.length = 0;
 				}
+			},
+			resetUser: function(){
+				this.User.settingUserName = true;
+				errorService.User.errorList.length = 0;
 			}
 		}
-	});
+	}]);
 
 	app.service('ErrorService', function(){
 		return {

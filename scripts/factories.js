@@ -10,7 +10,6 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 	}
 
 	function getParams(paramList){
-		paramList.user = DataService.User.userName;
 		return _.extend(paramList, defaultParams);
 	}
 
@@ -31,12 +30,16 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 		}
 
 	return {
-		getArtistsForUser: function(userName, numArtists) {
+		getArtistsForUser: function(userName) {
+			if (!userName) {
+				userName = DataService.User.userName;
+			}
 			DataService.User.loading = true;
 			var params = getParams({
 				period: DataService.Filter.period,
 				limit: DataService.Filter.limit,
-				method: "user.gettopartists"
+				method: "user.gettopartists",
+				user: userName
 			});
 			return $http({ method: "GET", url: apiRoot, params: params})
 				.then(function(result) {
@@ -47,13 +50,15 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 						DataService.User.lastSetUserName = DataService.User.userName;
 						DataService.User.settingUserName = false;
 					}
+					return valid;
 				});
 		},
 		getUserTracksForArtist: function(artist) {
 			DataService.Tracks.loading = true;
 			var params = getParams({
 				method: "user.getartisttracks",
-				artist: artist
+				artist: artist,
+				user: DataService.User.userName
 			});
 			return $http({ method: "GET", url: apiRoot, params: params })
 				.then(function(result){

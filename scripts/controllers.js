@@ -1,18 +1,25 @@
 var ListenFirst = ListenFirst || {};
 var app = ListenFirst.app;
 
-app.controller('UserController', ['$scope', 'DataService', 'LastFm', 'ErrorService', function($scope, DataService, LastFm, ErrorService){
+app.controller('UserController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
 	$scope.user = DataService.User;
+	$scope.enteredUserName = null;
 
 	$scope.setArtistsForUser = function(userName) {
-		if (!DataService.User.userName) return;
-		LastFm.getArtistsForUser();
+		if (!$scope.enteredUserName) { 
+			return;
+		}
+		LastFm.getArtistsForUser($scope.enteredUserName).then(function(validUser){
+			if (validUser) {
+				DataService.Tracks.resetTrack();
+				DataService.User.userName = userName;
+				$scope.enteredUserName = null;
+			}
+		});
 	}
 
 	$scope.resetUser = function() {
-		DataService.User.userName = null;
-		DataService.User.settingUserName = true;
-		ErrorService.User.errorList.length = 0;
+		DataService.resetUser();
 	}
 }]);
 
@@ -31,9 +38,14 @@ app.controller('FilterController', ['$scope', 'DataService', 'LastFm', function(
 app.controller('ArtistsController', ['$scope', 'DataService', 'LastFm', function($scope, DataService, LastFm){
 	$scope.artists = DataService.Artists;
 	$scope.user = DataService.User;
+	$scope.artistSearchTerm = null;
 
-	$scope.getFirstListen = function(artistId) {
-		LastFm.getUserTracksForArtist(artistId);
+	$scope.getFirstListen = function(artistName) {
+		LastFm.getUserTracksForArtist(artistName).then(function(validArtist){
+			if (validArtist) {
+				$scope.artistSearchTerm = null;
+			}
+		});
 	}
 
 	$scope.$watch('user.lastSetUserName', function(newVal, oldVal) {

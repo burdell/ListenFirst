@@ -40,11 +40,11 @@
 				
 				<div ng-controller="UserController">
 					<div class="row select-user" ng-show="user.settingUserName">
-						<form ng-submit="setArtistsForUser()">
+						<form ng-submit="setArtistsForUser(enteredUserName)">
 							<div class="row">
 								<error for="User"></error>
 								<div class="col-md-12">
-									<input class="form-control" ng-model="user.userName" placeholder="Enter your Last.fm username"/>	
+									<input class="form-control" ng-model="enteredUserName" placeholder="Enter your Last.fm username"/>	
 								</div>
 							</div>
 							<div class="row">
@@ -55,7 +55,7 @@
 								</div>
 								<div class="col-md-8" ng-hide="user.loading == true" >
 									<button ng-show="user.lastSetUserName" ng-click="user.settingUserName=false" class="btn btn-warning after-first" type="button"><span class="fui-cross"></span>&nbsp;Nope.&nbsp;</button>
-									<button ng-class="{ 'first-select': !user.lastSetUserName, 'after-first': user.lastSetUserName }" class="btn btn-primary" ng-disabled="!user.userName" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button>
+									<button ng-class="{ 'first-select': !user.userName, 'after-first': user.userName }" class="btn btn-primary" ng-disabled="!enteredUserName" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button>
 								</div>
 								<div class="col-md-2"></div>
 							</div>
@@ -69,11 +69,11 @@
 						</div>
 					</div>
 					<hr />
-					<h4>{{ user.lastSetUserName }}</h4>
+					<h4>{{ user.userName }}</h4>
 				</div>
 
 				<div ng-controller="FilterController">
-					<div ng-show="user.lastSetUserName">
+					<div ng-show="user.userName">
 						<accordion header-text="Filter">
 	                        <div class="row">
 	                                <div class="col-md-12 filter-option">
@@ -81,7 +81,7 @@
 	                                        <label><input type="radio" ng-model="filter.limit" value="10" /> 10 artists  </label>
 	                                        <label><input type="radio" ng-model="filter.limit" value="20" /> 20 artists  </label>
 	                                        <label><input type="radio" ng-model="filter.limit" value="30" /> 30 artists  </label>
-	                                        <label><input type="radio" ng-model="filter.limit" value="40" /> 50 artists  </label>
+	                                        <label><input type="radio" ng-model="filter.limit" value="50" /> 50 artists  </label>
 	                                </div>
 	                        </div>
 	                        <div class="row">
@@ -101,7 +101,7 @@
 				
 				<div ng-controller="ArtistsController">
 					<fieldset>
-							<div ng-show="user.lastSetUserName" class="artists-container">
+							<div ng-show="user.userName" class="artists-container">
 								<accordion header-text="Top Artists" default-open>
 									<div ng-show="artists.currentTopArtists" class="artists-container">
 										<div class="row" ng-show="user.loading == true">
@@ -140,7 +140,7 @@
 						<div ng-show="tracks.loading == true" class="spinner">
 							<img src="images/ajax-loader.gif" />
 						</div>
-						<div ng-show="tracks.firstTrack && tracks.loading == false">
+						<div ng-show="tracks.firstTrack">
 							<div class="first-listen-container col-md-12">
 								<div class="row">
 									<div class="col-md-12">
