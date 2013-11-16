@@ -8,7 +8,6 @@ var app = ListenFirst.app;
 			User: {
 				settingUserName: true,
 				userName: null,
-				lastSetUserName: null,
 				loading: false,
 			},
 			Filter: {
@@ -19,6 +18,7 @@ var app = ListenFirst.app;
 				currentTopArtists: []
 			},
 			Tracks: {
+				artistName: null,
 				firstTrack: null,
 				lastTrack: null,
 				loading: false,
@@ -35,6 +35,7 @@ var app = ListenFirst.app;
 					this.artistImageUrl = "";
 					this.artistPlayCount = null;
 					errorService.Track.errorList.length = 0;
+					this.artistName = null;
 				}
 			},
 			resetUser: function(){

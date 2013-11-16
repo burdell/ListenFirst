@@ -14,20 +14,21 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 	}
 
 	function setArtistData(artistName) {
-			var artist = _.findWhere(DataService.Artists.currentTopArtists, function(artist){
-								return artist.name == artistName;
-						});
-			if (artist) {
-				DataService.Tracks.artistImageUrl = artist.image[3]['#text'];
-				DataService.Tracks.artistPlayCount = artist.playcount;
-			} else {
-				var params = getParams({ method: "artist.info", artist: artistName, username: DataService.User.userName });
-				$http({ method: "GET", url: apiRoot, params: params }).then(function(response) {
-					DataService.Tracks.artistImageUrl = response.data.artist.image[3]['#text'];
-					DataService.Tracks.artistPlayCount = response.data.artist.stats.userplaycount;
-				});	
-			}
+		DataService.Tracks.artistName = artistName;
+		var artist = _.findWhere(DataService.Artists.currentTopArtists, function(artist){
+							return artist.name == artistName;
+					});
+		if (artist) {
+			DataService.Tracks.artistImageUrl = artist.image[3]['#text'];
+			DataService.Tracks.artistPlayCount = artist.playcount;
+		} else {
+			var params = getParams({ method: "artist.info", artist: artistName, username: DataService.User.userName });
+			$http({ method: "GET", url: apiRoot, params: params }).then(function(response) {
+				DataService.Tracks.artistImageUrl = response.data.artist.image[3]['#text'];
+				DataService.Tracks.artistPlayCount = response.data.artist.stats.userplaycount;
+			});	
 		}
+	}
 
 	return {
 		getArtistsForUser: function(userName) {
@@ -47,7 +48,6 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 					var valid = ErrorService.User.validate(result);
 					if (valid) {
 						DataService.Artists.currentTopArtists = result.data.topartists.artist
-						DataService.User.lastSetUserName = DataService.User.userName;
 						DataService.User.settingUserName = false;
 					}
 					return valid;
@@ -83,7 +83,8 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 				})
 				.then(function(result){
 					DataService.Tracks.loading = false;
-					if (result !== false) {
+					var valid = result !== false;
+					if (valid) {
 						var trackList = result.data.artisttracks.track;
 						var firstTrack = trackList;
 						if (_.isArray(firstTrack)) {
@@ -91,6 +92,7 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 						}
 						DataService.Tracks.setTrack(firstTrack, "firstTrack");
 					}
+					return valid;
 				});
 		}
 	}

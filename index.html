@@ -54,7 +54,7 @@
 									<div class="spinner"><img src="images/ajax-loader.gif" ></div>
 								</div>
 								<div class="col-md-8" ng-hide="user.loading == true" >
-									<button ng-show="user.lastSetUserName" ng-click="user.settingUserName=false" class="btn btn-warning after-first" type="button"><span class="fui-cross"></span>&nbsp;Nope.&nbsp;</button>
+									<button ng-show="user.userName" ng-click="user.settingUserName=false" class="btn btn-warning after-first" type="button"><span class="fui-cross"></span>&nbsp;Nope.&nbsp;</button>
 									<button ng-class="{ 'first-select': !user.userName, 'after-first': user.userName }" class="btn btn-primary" ng-disabled="!enteredUserName" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button>
 								</div>
 								<div class="col-md-2"></div>
@@ -144,7 +144,7 @@
 							<div class="first-listen-container col-md-12">
 								<div class="row">
 									<div class="col-md-12">
-										<h3>{{ tracks.firstTrack.artist['#text'] }}</h3>
+										<h3>{{ tracks.artistName }}</h3>
 									</div>
 									<div class="circle col-md-12">
 										<a style="background-image: url({{ tracks.artistImageUrl }});"></a>
