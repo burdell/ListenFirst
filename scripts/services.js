@@ -12,7 +12,7 @@ var app = ListenFirst.app;
 			},
 			Filter: {
 				period: "overall",
-				limit: 30
+				limit: 20
 			},
 			Artists: {
 				currentTopArtists: []
@@ -26,7 +26,6 @@ var app = ListenFirst.app;
 				artistPlayCount: null,
 				timezoneOffset: null,
 				setTrack: function(track, whichTrack) {
-					//HALLO WEER LASTDAUGHTFM OUT O' JOLLY ENGLAN
 					var dateMoment = moment(track.date['#text']).subtract('minutes', timezoneOffset);
 					track.date['#text'] = dateMoment.format("MMMM D, YYYY") + " (" + dateMoment.fromNow() + ")";
 					this[whichTrack] = track;
