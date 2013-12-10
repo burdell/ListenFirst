@@ -8,11 +8,17 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="row header">
-				<h1>ListenFirst</h1>
-				<a target="_blank" href="https://github.com/burdell/ListenFirst">source</a>
-			</div>
 			<div ng-app="ListenFirst">
+				<div class="row header">
+					<h1>ListenFirst</h1>
+					<a target="_blank" href="https://github.com/burdell/ListenFirst">source</a>
+					<span style="color: white;" ng-mouseleave="halp = false">
+						<a ng-show="!halp" ng-mouseenter="halp = true">halp</a>
+						<a href="http://www.last.fm/community/users" target="_blank" ng-show="halp">
+							&nbsp;&nbsp;If you don't have a Last.fm account, mine is 'burdell' or click to find one
+						</a>
+					</span>
+				</div>
 				<script type="text/ng-template" id="accordionHeading.html">
 					<div class="accordion">
 						<div class="row accordion-header">
