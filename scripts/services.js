@@ -8,6 +8,10 @@ var app = ListenFirst.app;
 			User: {
 				settingUserName: true,
 				userName: null,
+				totalTracks: null,
+				imageUrl: null,
+				joinDate: null,
+				realName: null,
 				loading: false,
 			},
 			Filter: {

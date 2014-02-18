@@ -31,6 +31,19 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 	}
 
 	return {
+		setUserData: function(userName) {
+			var user = DataService.User;
+			user.dataLoading = true;
+			return $http({ method: "GET", url: apiRoot, params: getParams({ method: "user.getinfo", user: userName }) })
+				.then(function(result){
+					user.dataLoading = false;
+					var userData;
+					if (result.data && (userData = result.data.user)) {
+						user.totalTracks = userData.playcount;
+						user.realName = userData.realname;
+					}
+				});
+		}, 
 		getArtistsForUser: function(userName) {
 			if (!userName) {
 				userName = DataService.User.userName;

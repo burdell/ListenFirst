@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<div ng-app="ListenFirst">
+			<div ng-app="ListenFirst" ng-cloak>
 				<div class="row header">
 					<h1>ListenFirst</h1>
 					<a target="_blank" href="https://github.com/burdell/ListenFirst">source</a>
@@ -75,7 +75,17 @@
 						</div>
 					</div>
 					<hr />
-					<h4>{{ user.userName }}</h4>
+					<h4>
+						<div ng-hide="!user.imageUrl" class="circle col-md-12">
+							<img src="url({{ user.imageUrl['#text'] }});" />
+						</div>
+						{{ user.userName }}
+						 <span class="spinner" ng-show="user.dataLoading"><img src="images/ajax-loader.gif" ></span>
+						 <span ng-hide="user.dataLoading">
+							 <span ng-show="user.realName">({{ user.realName }})</span>
+							 <span ng-show="user.totalTracks"> - {{ user.totalTracks | number }} total plays</span>
+						</span>
+					</h4>
 				</div>
 
 				<div ng-controller="FilterController">

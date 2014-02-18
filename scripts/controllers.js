@@ -13,6 +13,7 @@ app.controller('UserController', ['$scope', 'DataService', 'LastFm', function($s
 			if (validUser) {
 				DataService.Tracks.resetTrack();
 				DataService.User.userName = userName;
+				LastFm.setUserData(userName);
 				$scope.enteredUserName = null;
 			}
 		});
