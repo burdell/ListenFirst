@@ -1,4 +1,3 @@
-var ListenFirst = ListenFirst || {};
 
-ListenFirst.app = angular.module('ListenFirst', ['ui.router']); 
-ListenFirst.app.value("TimezoneOffset", new Date().getTimezoneOffset());	
+angular.module(ListenFirst.appName, ['ui.router'])
+	.value("TimezoneOffset", new Date().getTimezoneOffset());	
