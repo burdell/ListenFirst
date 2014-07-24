@@ -1,6 +1,3 @@
-var ListenFirst = ListenFirst || {};
-var app = ListenFirst.app;
-
 
 app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, DataService, ErrorService){
 	var apiRoot = "http://ws.audioscrobbler.com/2.0/";
@@ -110,4 +107,3 @@ app.factory('LastFm', [ '$http', 'DataService', 'ErrorService', function($http, 
 		}
 	}
 }]);
-	

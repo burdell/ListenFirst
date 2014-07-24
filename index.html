@@ -7,8 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
-		<div class="container">
-			<div ng-app="ListenFirst" ng-cloak>
+		<div ng-app="ListenFirst" ng-cloak>
 				<div class="row header">
 					<h1>ListenFirst</h1>
 					<a target="_blank" href="https://github.com/burdell/ListenFirst">source</a>
@@ -19,176 +18,17 @@
 						</a>
 					</span>
 				</div>
-				<script type="text/ng-template" id="accordionHeading.html">
-					<div class="accordion">
-						<div class="row accordion-header">
-							<h6 ng-click="accordion.bodyShown = !accordion.bodyShown">
-								<span ng-class="{'chevron-down': accordion.bodyShown}" class="fui-arrow-right"></span>
-								<span>{{ accordion.headerText }}</span>
-							</h6>
-						</div>
-						<div ng-show="accordion.bodyShown" class="row accordion-body" ng-transclude>
-						</div>
-					</div>
-				</script>
-
-				<script type="text/ng-template" id="error.html">
-					<div class="row">
-						<div class="col-md-2"></div>
-						<div class="col-md-8" ng-show="errorList.length > 0">
-							<p class="error-text" ng-repeat="error in errorList">
-								{{ error }}
-							</p>
-						</div>
-						<div class="col-md-2"></div>
-					</div>
-				</script>
-				
-				<div ng-controller="UserController">
-					<div class="row select-user" ng-show="user.settingUserName">
-						<form ng-submit="setArtistsForUser(enteredUserName)">
-							<div class="row">
-								<error for="User"></error>
-								<div class="col-md-12">
-									<input class="form-control" ng-model="enteredUserName" placeholder="Enter your Last.fm username"/>	
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-2"></div>
-								<div class="col-md-8" ng-show="user.loading == true">
-									<div class="col-md-6"></div>
-									<div class="spinner"><img src="images/ajax-loader.gif" ></div>
-								</div>
-								<div class="col-md-8" ng-hide="user.loading == true" >
-									<button ng-show="user.userName" ng-click="user.settingUserName=false" class="btn btn-warning after-first" type="button"><span class="fui-cross"></span>&nbsp;Nope.&nbsp;</button>
-									<button ng-class="{ 'first-select': !user.userName, 'after-first': user.userName }" class="btn btn-primary" ng-disabled="!enteredUserName" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button>
-								</div>
-								<div class="col-md-2"></div>
-							</div>
-						</form>
-					</div>
-					<div ng-show="!user.settingUserName">
-						<div class="row" >
-							<div class="col-md-12">
-							<button ng-click="resetUser()" class="btn btn-info btn-small"><span class="fui-user"></span>  Set New User</button>
-							</div>
-						</div>
-					</div>
-					<hr />
-					<h4>
-						<div ng-hide="!user.imageUrl" class="circle col-md-12">
-							<img src="url({{ user.imageUrl['#text'] }});" />
-						</div>
-						{{ user.userName }}
-						 <span class="spinner" ng-show="user.dataLoading"><img src="images/ajax-loader.gif" ></span>
-						 <span ng-hide="user.dataLoading">
-							 <span ng-show="user.realName">({{ user.realName }})</span>
-							 <span ng-show="user.totalTracks"> - {{ user.totalTracks | number }} total plays</span>
-						</span>
-					</h4>
-				</div>
-
-				<div ng-controller="FilterController">
-					<div ng-show="user.userName">
-						<accordion header-text="Filter">
-	                        <div class="row">
-	                                <div class="col-md-12 filter-option">
-	                                <h6>Show...</h6>
-	                                        <label><input type="radio" ng-model="filter.limit" value="10" /> 10 artists  </label>
-	                                        <label><input type="radio" ng-model="filter.limit" value="20" /> 20 artists  </label>
-	                                        <label><input type="radio" ng-model="filter.limit" value="30" /> 30 artists  </label>
-	                                        <label><input type="radio" ng-model="filter.limit" value="50" /> 50 artists  </label>
-	                                </div>
-	                        </div>
-	                        <div class="row">
-	                                <div class="col-md-12 filter-option">
-	                                <h6>From...</h6>
-	                                        <label><input type="radio" ng-model="filter.period" value="7day" /> 1 week  </label> 
-	                                        <label><input type="radio" ng-model="filter.period" value="1month" /> 1 month  </label>
-	                                        <label><input type="radio" ng-model="filter.period" value="3month" /> 3 months  </label> 
-	                                        <label><input type="radio" ng-model="filter.period" value="6month" /> 6 months  </label>
-	                                        <label><input type="radio" ng-model="filter.period" value="12month" /> 1 year  </label>
-	                                        <label><input type="radio" ng-model="filter.period" value="overall" /> All time  </label>
-	                                </div>
-	                        </div>
-	                </accordion>
-					</div>
-				</div>
-				
-				<div ng-controller="ArtistsController">
-					<fieldset>
-							<div ng-show="user.userName" class="artists-container">
-								<accordion header-text="Top Artists" default-open>
-									<div ng-show="artists.currentTopArtists" class="artists-container">
-										<div class="row" ng-show="user.loading == true">
-											<div class="col-md-2"></div>
-											<div class="col-md-8">
-												<div class="col-md-6"></div>
-												<div class="spinner"><img src="images/ajax-loader.gif" ></div>
-											</div>
-										</div>
-										<div class="row" ng-hide="user.loading == true">
-											<div class="col-md-2 artist-panel" ng-repeat="artist in artists.currentTopArtists">
-												<p class="artist-name" title="{{ artist.playcount }} plays" ng-click="getFirstListen(artist.name)">{{ artist.name }}</p>
-											</div>
-										</div>
-									</div>
-								</accordion>
-								<div class="artist-input-container row">
-									<p>or enter an artist in their library...</p>
-									<form ng-submit="getFirstListen(artistSearchTerm)">
-										<div class="col-md-7"><input class="form-control" type="text" ng-model="artistSearchTerm" /></div>
-										<div class="col-md-5"><button style="width:100%;" class="btn btn-primary" ng-disabled="!artistSearchTerm" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button></div>
-									</form>
-								</div>
-								<hr />
-							</div>
-					</fieldset>
-				</div>
-
-				<div ng-controller="TracksController">
-					<div class="row">
-						<div ng-hide="tracks.loading == true">
-							<error for="Artist"></error>
-							<error for="Track"></error>
-						</div>
-						<div class="col-md-6"></div>
-						<div ng-show="tracks.loading == true" class="spinner">
-							<img src="images/ajax-loader.gif" />
-						</div>
-						<div ng-show="tracks.firstTrack">
-							<div class="first-listen-container col-md-12">
-								<div class="row">
-									<div class="col-md-12">
-										<h3>{{ tracks.artistName }}</h3>
-									</div>
-									<div class="circle col-md-12">
-										<a style="background-image: url({{ tracks.artistImageUrl }});"></a>
-									</div>
-								</div>
-								<div class="row">
-									<p>First listen: <strong>{{ tracks.firstTrack.date['#text'] }}</strong></p>
-									<p>First track: <strong>{{ tracks.firstTrack.name }}</strong> <span ng-show="tracks.firstTrack.album['#text']">from <strong>{{ tracks.firstTrack.album['#text'] }}</strong></span></p>
-									<p>Listens: {{ tracks.artistPlayCount }}</p>
-									<p>Most recent listen: <strong>{{ tracks.lastTrack.date['#text'] }}</strong> to <strong>{{ tracks.lastTrack.name }}</strong> <span ng-show="tracks.lastTrack.album['#text']">from <strong>{{ tracks.lastTrack.album['#text']}}</strong></p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+				<div ui-view></div>
 		</div>
 
 		<!-- vendor scripts -->	
 		<script type="text/javascript" src="scripts/vendor/lodash.js"></script>
 		<script type="text/javascript" src="scripts/vendor/moment.min.js"></script>
 		<script type="text/javascript" src="scripts/vendor/angular.min.js"></script>
+		<script type="text/javascript" src="scripts/vendor/ui-router.js"></script>
 
 		<!-- not vendor scripts -->
 		<script type="text/javascript" src="scripts/app.js"></script>
-		<script type="text/javascript" src="scripts/factories.js"></script>
-		<script type="text/javascript" src="scripts/services.js"></script>
-		<script type="text/javascript" src="scripts/controllers.js"></script>
-		<script type="text/javascript" src="scripts/directives.js"></script>
+		<script type="text/javascript" src="scripts/app-states.js"></script>
 	</body>
 </html>
