@@ -1,8 +1,3 @@
-
-<div>
-	<h1>{{ userName }}</h1>
-</div>
-
 <!--
 <div ng-controller="FilterController">
 	<div ng-show="user.userName">
@@ -29,12 +24,13 @@
             </div>
     </accordion>
 	</div>
-</div>
+</div> -->
 
-<div ng-controller="ArtistsController">
+<div>
+	<h2>{{ currentUser }}</h2>
 	<fieldset>
-			<div ng-show="user.userName" class="artists-container">
-				<accordion header-text="Top Artists" default-open>
+			<div class="artists-container">
+			<!--	<accordion header-text="Top Artists" default-open>
 					<div ng-show="artists.currentTopArtists" class="artists-container">
 						<div class="row" ng-show="user.loading == true">
 							<div class="col-md-2"></div>
@@ -49,15 +45,15 @@
 							</div>
 						</div>
 					</div>
-				</accordion>
-				<div class="artist-input-container row">
+				</accordion> -->
+				<!-- <div class="artist-input-container row">
 					<p>or enter an artist in their library...</p>
 					<form ng-submit="getFirstListen(artistSearchTerm)">
 						<div class="col-md-7"><input class="form-control" type="text" ng-model="artistSearchTerm" /></div>
 						<div class="col-md-5"><button style="width:100%;" class="btn btn-primary" ng-disabled="!artistSearchTerm" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button></div>
 					</form>
-				</div>
+				</div> -->
 				<hr />
 			</div>
 	</fieldset>
-</div>-->
+</div>

@@ -28,7 +28,7 @@ angular.module(ListenFirst.appName)
 		}
 
 		return {
-			setUserData: function(userName) {
+			getUserData: function(userName) {
 				var user = DataService.User;
 				user.dataLoading = true;
 				return $http({ method: "GET", url: apiRoot, params: getParams({ method: "user.getinfo", user: userName }) })
