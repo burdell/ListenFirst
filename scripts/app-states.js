@@ -8,7 +8,12 @@ angular.module(ListenFirst.appName)
 				url: "/",
 				templateUrl: "templates/enterUser.html",
 				controller: "UserController"
-			});
+			})
+			.state("artistsForUser", {
+				url: "/user/{userName}",
+				templateUrl: "templates/artistList.html",
+				controller: "ArtistsController"
+			})
 		}
 	]);
 
