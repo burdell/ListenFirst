@@ -30,22 +30,16 @@ angular.module(ListenFirst.appName)
 		return {
 			getUserData: function(userName) {
 				var user = DataService.User;
-				user.dataLoading = true;
 				return $http({ method: "GET", url: apiRoot, params: getParams({ method: "user.getinfo", user: userName }) })
 					.then(function(result){
 						user.dataLoading = false;
 						var userData;
 						if (result.data && (userData = result.data.user)) {
-							user.totalTracks = userData.playcount;
-							user.realName = userData.realname;
+							return userData;
 						}
 					});
 			}, 
 			getArtistsForUser: function(userName) {
-				if (!userName) {
-					userName = DataService.User.userName;
-				}
-				DataService.User.loading = true;
 				var params = getParams({
 					period: DataService.Filter.period,
 					limit: DataService.Filter.limit,
@@ -54,13 +48,7 @@ angular.module(ListenFirst.appName)
 				});
 				return $http({ method: "GET", url: apiRoot, params: params})
 					.then(function(result) {
-						DataService.User.loading = false;
-						var valid = ErrorService.User.validate(result);
-						if (valid) {
-							DataService.Artists.currentTopArtists = result.data.topartists.artist
-							DataService.User.settingUserName = false;
-						}
-						return valid;
+						return result.data.topartists.artist;
 					});
 			},
 			getUserTracksForArtist: function(artist) {

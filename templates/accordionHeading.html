@@ -1,0 +1,10 @@
+<div class="accordion">
+	<div class="row accordion-header">
+		<h6 ng-click="accordion.bodyShown = !accordion.bodyShown">
+			<span ng-class="{'chevron-down': accordion.bodyShown}" class="fui-arrow-right"></span>
+			<span>{{ accordion.headerText }}</span>
+		</h6>
+	</div>
+	<div ng-show="accordion.bodyShown" class="row accordion-body" ng-transclude>
+	</div>
+</div>

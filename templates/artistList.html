@@ -1,59 +1,35 @@
-<!--
-<div ng-controller="FilterController">
-	<div ng-show="user.userName">
-		<accordion header-text="Filter">
-            <div class="row">
-                    <div class="col-md-12 filter-option">
-                    <h6>Show...</h6>
-                            <label><input type="radio" ng-model="filter.limit" value="10" /> 10 artists  </label>
-                            <label><input type="radio" ng-model="filter.limit" value="20" /> 20 artists  </label>
-                            <label><input type="radio" ng-model="filter.limit" value="30" /> 30 artists  </label>
-                            <label><input type="radio" ng-model="filter.limit" value="50" /> 50 artists  </label>
-                    </div>
-            </div>
-            <div class="row">
-                    <div class="col-md-12 filter-option">
-                    <h6>From...</h6>
-                            <label><input type="radio" ng-model="filter.period" value="7day" /> 1 week  </label> 
-                            <label><input type="radio" ng-model="filter.period" value="1month" /> 1 month  </label>
-                            <label><input type="radio" ng-model="filter.period" value="3month" /> 3 months  </label> 
-                            <label><input type="radio" ng-model="filter.period" value="6month" /> 6 months  </label>
-                            <label><input type="radio" ng-model="filter.period" value="12month" /> 1 year  </label>
-                            <label><input type="radio" ng-model="filter.period" value="overall" /> All time  </label>
-                    </div>
-            </div>
-    </accordion>
+<div class="row">
+	<div></div>
+	<div class="col-md-4">
+		<a ui-sref="enterUser" class="btn btn-block btn-lg btn-info fui-arrow-left">&nbsp;Enter New User</a>
 	</div>
-</div> -->
+</div>
+<hr />
+<div class="row">
+	<div class="col-md-12">
+		<h4>
+			{{ user.name }}
+			 <span ng-show="user.realname">({{ user.realname }})</span>
+			 <span ng-show="user.playcount"> - {{ user.playcount | number }} total plays</span>
+		</h4>
+	</div>
+</div>
 
-<div>
-	<h2>{{ currentUser }}</h2>
-	<fieldset>
+<div class="row">
+	<div class="col-md-12">
+		<accordion header-text="Top Artists" default-open>
 			<div class="artists-container">
-			<!--	<accordion header-text="Top Artists" default-open>
-					<div ng-show="artists.currentTopArtists" class="artists-container">
-						<div class="row" ng-show="user.loading == true">
-							<div class="col-md-2"></div>
-							<div class="col-md-8">
-								<div class="col-md-6"></div>
-								<div class="spinner"><img src="images/ajax-loader.gif" ></div>
-							</div>
-						</div>
-						<div class="row" ng-hide="user.loading == true">
-							<div class="col-md-2 artist-panel" ng-repeat="artist in artists.currentTopArtists">
-								<p class="artist-name" title="{{ artist.playcount }} plays" ng-click="getFirstListen(artist.name)">{{ artist.name }}</p>
-							</div>
-						</div>
+				<div class="row">
+					<div class="col-md-2 artist-panel" ng-repeat="artist in topArtists">
+						<p 
+							class="artist-name" 
+							title="{{ artist.playcount }} plays" 
+							ng-click="getFirstListen(artist.name)">
+							{{ artist.name }}
+						</p>
 					</div>
-				</accordion> -->
-				<!-- <div class="artist-input-container row">
-					<p>or enter an artist in their library...</p>
-					<form ng-submit="getFirstListen(artistSearchTerm)">
-						<div class="col-md-7"><input class="form-control" type="text" ng-model="artistSearchTerm" /></div>
-						<div class="col-md-5"><button style="width:100%;" class="btn btn-primary" ng-disabled="!artistSearchTerm" type="submit"><span class="fui-check"></span>&nbsp;Go!&nbsp;</button></div>
-					</form>
-				</div> -->
-				<hr />
+				</div>
 			</div>
-	</fieldset>
+		</accordion>
+	</div>
 </div>
