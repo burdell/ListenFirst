@@ -29,15 +29,14 @@ angular.module(ListenFirst.appName)
 
 		return {
 			getUserData: function(userName) {
-				var user = DataService.User;
-				return $http({ method: "GET", url: apiRoot, params: getParams({ method: "user.getinfo", user: userName }) })
-					.then(function(result){
-						user.dataLoading = false;
-						var userData;
-						if (result.data && (userData = result.data.user)) {
-							return userData;
-						}
-					});
+				return $http({ 
+					method: "GET", 
+					url: apiRoot, 
+					params: getParams({ 
+						method: "user.getinfo", 
+						user: userName 
+					}) 
+				});
 			}, 
 			getArtistsForUser: function(userName) {
 				var params = getParams({
@@ -46,10 +45,8 @@ angular.module(ListenFirst.appName)
 					method: "user.gettopartists",
 					user: userName
 				});
-				return $http({ method: "GET", url: apiRoot, params: params})
-					.then(function(result) {
-						return result.data.topartists.artist;
-					});
+
+				return $http({ method: "GET", url: apiRoot, params: params});
 			},
 			getUserTracksForArtist: function(artist) {
 				DataService.Tracks.loading = true;

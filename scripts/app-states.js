@@ -14,11 +14,15 @@ angular.module(ListenFirst.appName)
 				templateUrl: "templates/artistList.html",
 				controller: "ArtistsController",
 				resolve: {
-					UserData: ['$stateParams', 'LastFm', function($stateParams, LastFm){
-						return LastFm.getUserData($stateParams.userName);
-					}],
-					ArtistData: ['$stateParams', 'LastFm', function($stateParams, LastFm){
-						return LastFm.getArtistsForUser($stateParams.userName);
+					UserData: ['$stateParams', '$state', 'LastFm', 'ErrorService', function($stateParams, $state, LastFm, ErrorService){
+						return LastFm.getUserData($stateParams.userName).then(function(result){
+							var validUser = ErrorService.User.validate(result);
+							if (validUser) {
+								return result.data.user;
+							} else {
+								$state.go("enterUser");
+							}
+						});
 					}]
 				}
 			})

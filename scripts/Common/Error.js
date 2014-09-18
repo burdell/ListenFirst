@@ -1,11 +1,12 @@
-angular.module(ListenFirst.appName)
-	.service('ErrorService', function(){
+(function(){
+	var errorService = function(){
 		return {
 			User: {
 				errorList: [],
 				validate: function(dataResult) {
 					this.errorList.length = 0;
-					switch(dataResult.data.error){
+					var data = dataResult.data;
+					switch(data.error){
 						case 10:
 							this.errorList.push("Looks like you entered a username with some invalid characters :(");
 							break;
@@ -14,8 +15,8 @@ angular.module(ListenFirst.appName)
 							break;
 					}
 					if (this.errorList.length == 0) {
-						var artists = dataResult.data.topartists; 
-						if (Number(artists.total) == 0) {
+						var artists = data.topartists;
+						if (artists && Number(artists.total) == 0) {
 							this.errorList.push(artists.user + " does not have any artists in their library :(")
 						}
 					} 
@@ -48,8 +49,9 @@ angular.module(ListenFirst.appName)
 				}
 			}
 		}
-	})
-	.directive('error', ['ErrorService', function(ErrorService) {
+	};
+
+	var errorDirective = ['ErrorService', function(ErrorService) {
 		return {
 			restrict: 'E',
 			templateUrl: 'templates/error.html',
@@ -58,4 +60,9 @@ angular.module(ListenFirst.appName)
 				scope.errorList = ErrorService[attrs.for].errorList;
 			}
 		}
-}]);
+	}];
+
+	angular.module(ListenFirst.appName)
+		.service('ErrorService', errorService)
+		.directive('error', errorDirective);
+}());
