@@ -20,7 +20,7 @@ angular.module(ListenFirst.appName)
 				controller: "ArtistsController",
 				resolve: {
 					UserData: ['$stateParams', '$state', 'LastFm', 'ErrorService', 'DataService', function($stateParams, $state, LastFm, ErrorService, DataService){
-						var userName = $stateParams.userName || DataService.User.LastSetUser;
+						var userName = $stateParams.userName;
 						return LastFm.getUserData(userName).then(function(result){
 							var validUser = ErrorService.User.validate(result);
 							if (validUser) {

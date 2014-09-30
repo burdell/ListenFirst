@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-8"></div>
 			<div class="col-md-4">
-				<a ui-sref="user" ui-sref-opts="{ userName : LastSetUser }" class="btn btn-block btn-lg btn-info fui-arrow-right pull-right">&nbsp;Back</a>
+				<a ui-sref="user({ userName : LastSetUser })" class="btn btn-block btn-sm btn-info">Back to {{ LastSetUser }}&nbsp;<span class="fui-arrow-right"></span></a>
 			</div>
 		</div>
 		<hr />
