@@ -29,6 +29,7 @@ angular.module(ListenFirst.appName)
 
 		return {
 			getUserData: function(userName) {
+				debugger;
 				return $http({ 
 					method: "GET", 
 					url: apiRoot, 

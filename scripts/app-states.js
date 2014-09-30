@@ -7,18 +7,26 @@ angular.module(ListenFirst.appName)
 			.state("enterUser", {
 				url: "/",
 				templateUrl: "templates/enterUser.html",
-				controller: "UserController"
+				controller: "UserController",
+				resolve: {
+					LastSetUser: ['DataService', function(DataService) {
+						return DataService.User.LastSetUser;
+					}]
+				}
 			})
 			.state("user", {
 				url: "/user/{userName}",
 				templateUrl: "templates/artistList.html",
 				controller: "ArtistsController",
 				resolve: {
-					UserData: ['$stateParams', '$state', 'LastFm', 'ErrorService', function($stateParams, $state, LastFm, ErrorService){
-						return LastFm.getUserData($stateParams.userName).then(function(result){
+					UserData: ['$stateParams', '$state', 'LastFm', 'ErrorService', 'DataService', function($stateParams, $state, LastFm, ErrorService, DataService){
+						var userName = $stateParams.userName || DataService.User.LastSetUser;
+						return LastFm.getUserData(userName).then(function(result){
 							var validUser = ErrorService.User.validate(result);
 							if (validUser) {
-								return result.data.user;
+								var userData = result.data.user;
+								DataService.User.LastSetUser = userData.name;
+								return userData;
 							} else {
 								$state.go("enterUser");
 							}

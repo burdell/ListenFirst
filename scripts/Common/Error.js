@@ -47,6 +47,11 @@
 					}
 					return this.errorList.length == 0;
 				}
+			},
+			clearAll: function(){
+				this.User.errorList.length = 0;
+				this.Artist.errorList.length = 0;
+				this.Track.errorList.length = 0;
 			}
 		}
 	};
@@ -56,6 +61,11 @@
 			restrict: 'E',
 			templateUrl: 'templates/error.html',
 			scope: true,
+			controller: ['$scope', function($scope){
+				$scope.$on('$stateChangeStart', function(){
+					ErrorService.clearAll();
+				});
+			}],
 			link: function(scope, element, attrs) {
 				scope.errorList = ErrorService[attrs.for].errorList;
 			}

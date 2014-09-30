@@ -2,13 +2,7 @@ angular.module(ListenFirst.appName)
 	.service('DataService', ['ErrorService', 'TimezoneOffset', function(errorService, timezoneOffset){
 			return {
 				User: {
-					settingUserName: true,
-					userName: null,
-					totalTracks: null,
-					imageUrl: null,
-					joinDate: null,
-					realName: null,
-					loading: false,
+					LastSetUser: null
 				},
 				Filter: {
 					period: "overall",
