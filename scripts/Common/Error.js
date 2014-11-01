@@ -59,7 +59,7 @@
 	var errorDirective = ['ErrorService', function(ErrorService) {
 		return {
 			restrict: 'E',
-			templateUrl: 'templates/error.html',
+			templateUrl: 'error.html',
 			scope: true,
 			controller: ['$scope', function($scope){
 				$scope.$on('$stateChangeStart', function(){

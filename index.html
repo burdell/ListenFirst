@@ -2,9 +2,13 @@
 <html>
 	<head>
 		<title>ListenFirst</title>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="css/flat-ui.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
+		 <!-- CSS INJECTS -->
+
+        <!-- bower:css -->
+        <!-- endinject -->        
+
+        <!-- app:css -->
+        <!-- endinject -->
 	</head>
 	<body>
 		<div ng-app="ListenFirst" ng-cloak>
@@ -27,22 +31,11 @@
 				</div>
 		</div>
 
-		<!-- vendor scripts -->	
-		<script type="text/javascript" src="scripts/vendor/lodash.js"></script>
-		<script type="text/javascript" src="scripts/vendor/moment.min.js"></script>
-		<script type="text/javascript" src="scripts/vendor/angular.min.js"></script>
-		<script type="text/javascript" src="scripts/vendor/ui-router.js"></script>
+		<!-- SCRIPT INJECTS -->
+	    <!-- bower:js -->
+	    <!-- endinject -->
 
-		<!-- not vendor scripts -->
-		<script type="text/javascript" src="scripts/config.js"></script>
-		<script type="text/javascript" src="scripts/app.js"></script>
-		<script type="text/javascript" src="scripts/app-states.js"></script>
-		<script type="text/javascript" src="scripts/Common/DataService.js"></script>
-		<script type="text/javascript" src="scripts/Common/LastFm.js"></script>
-		<script type="text/javascript" src="scripts/Common/Error.js"></script>
-		<script type="text/javascript" src="scripts/Common/Accordion.js"></script>
-		
-		<script type="text/javascript" src="scripts/User/UserController.js"></script>
-		<script type="text/javascript" src="scripts/Artist/ArtistController.js"></script>
+	    <!-- app:js -->
+	    <!-- endinject -->
 	</body>
 </html>

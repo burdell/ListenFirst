@@ -1,4 +1,0 @@
-
-window.ListenFirst = {
-	appName: "ListenFirst"
-}

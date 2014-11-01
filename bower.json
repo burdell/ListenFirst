@@ -1,0 +1,26 @@
+{
+  "name": "ListenFirst",
+  "version": "0.2.0",
+  "authors": [
+    "Nathan Griffin"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.2.25",
+    "select2": "~3.5.1",
+    "underscore": "~1.7.0",
+    "moment": "~2.8.3",
+    "ui-router": "~0.2.11"
+  }
+}

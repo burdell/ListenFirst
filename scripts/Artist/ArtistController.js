@@ -9,4 +9,4 @@ angular.module(ListenFirst.appName).controller('ArtistsController',
 				$scope.topArtists = result.data.topartists.artist;
 			});
 		};
-	}]);
+}]);
