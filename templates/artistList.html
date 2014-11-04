@@ -16,6 +16,27 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
+		<accordion header-text="Filter">
+			<div class="row">
+                <div class="col-md-12 filter-option">
+                <h6>Show...</h6>
+            		<label ng-repeat="artistNumber in filter.artistNumberOptions">
+            			<input ng-change="applyFilter()" type="radio" ng-model="filter.limit" value="{{ artistNumber.value}}"/>
+            			{{ artistNumber.text }}
+            		</label>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-md-12 filter-option">
+                    <h6>From...</h6>
+                    <label ng-repeat="timePeriod in filter.timePeriodOptions">
+            			<input ng-change="applyFilter()" type="radio" ng-model="filter.period" value="{{ timePeriod.value}}"/>
+            			{{ timePeriod.text }}
+            		</label>
+                </div>
+            </div>
+		</accordion>
+
 		<accordion header-text="Top Artists" default-open>
 			<error for="User"></error>
 			<div class="artists-container">

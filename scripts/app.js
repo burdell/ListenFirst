@@ -4,7 +4,8 @@ window.ListenFirst = {
 
 angular.module(ListenFirst.appName, ['ui.router'])
 	.value("TimezoneOffset", new Date().getTimezoneOffset())
-	.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider){
+			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise("/");
 			$stateProvider
 				.state("enterUser", {
@@ -36,6 +37,11 @@ angular.module(ListenFirst.appName, ['ui.router'])
 							});
 						}]
 					}
+				})
+				.state('user.tracks', {
+					url: "/artist/{artistId}",
+					templateUrl: "tracksInfo.html",
+					controller: "TracksController"
 				})
 			}
 		])

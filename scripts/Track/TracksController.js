@@ -1,4 +1,3 @@
-angular.module(ListenFirst.appName).controller('TracksController', ['$scope', 'DataService', function($scope, DataService){		
-	$scope.tracks = DataService.Tracks;
-	$scope.user = DataService.User;
+angular.module(ListenFirst.appName).controller('TracksController', ['$scope', function($scope, DataService){		
+	console.log('track controller');
 }]);
