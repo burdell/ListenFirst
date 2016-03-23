@@ -1,12 +1,10 @@
 
-angular.module(ListenFirst.appName)
-	.controller('UserController', ['$scope', '$state', 'LastSetUser', function($scope, $state, LastSetUser){
-		$scope.goToUserPage = function(){
-			if ($scope.enteredUserName) {
-				$state.go("user", { userName: $scope.enteredUserName });
-			}
-		};
+'use strict';
 
-		$scope.LastSetUser = LastSetUser;
-	}
-]);
+function EnterUserController() {
+	console.log('here');
+}
+EnterUserController.$inject = [];
+
+require('angular').module('listenfirst.pages')
+	.controller('EnterUserController', EnterUserController);

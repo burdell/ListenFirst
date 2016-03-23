@@ -2,16 +2,12 @@
 <html>
 	<head>
 		<title>ListenFirst</title>
-		 <!-- CSS INJECTS -->
-
-        <!-- bower:css -->
-        <!-- endinject -->        
-
-        <!-- app:css -->
-        <!-- endinject -->
+		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/flat-ui.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	</head>
 	<body>
-		<div ng-app="ListenFirst" ng-cloak>
+		<div ng-cloak>
 				<div class="row header">
 					<h1>ListenFirst</h1>
 					<a target="_blank" href="https://github.com/burdell/ListenFirst">source</a>
@@ -25,17 +21,13 @@
 				<div class="row">
 					<div class="col-md-2"></div>
 					<div class="col-md-8">
-						<div ui-view></div>	
+						<div ui-view></div>
 					</div>
 					<div class="col-md-2"></div>
 				</div>
 		</div>
 
-		<!-- SCRIPT INJECTS -->
-	    <!-- bower:js -->
-	    <!-- endinject -->
-
-	    <!-- app:js -->
-	    <!-- endinject -->
+		<script type="text/javascript" src="js/listenfirst.app.js"></script>
+		<script type="text/javascript" src="js/listenfirst.templates.js"></script>
 	</body>
 </html>

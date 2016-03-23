@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-// var del = require('del');
+var del = require('del');
 //
 var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
@@ -25,7 +25,7 @@ var sources = {
 	sass: ['assets/**/*.scss'],
 	partials: [
 		'app/pages/**/*.html',
-    'app/shared/**/*.html',
+    'app/directives/**/*.html',
     '!app/index.html'
 	]
 };
@@ -60,7 +60,7 @@ gulp.task('prod-scripts', function(){
 function browserifyHelper(prodBuild) {
       var b = browserify({
           debug: true,
-          paths: ['app/', 'node_modules', 'app/shared/', 'app/pages/'],
+          paths: ['app/', 'node_modules'],
           fullPaths: true,
           cache: {},
           packageCache: {}
@@ -72,7 +72,7 @@ function browserifyHelper(prodBuild) {
               bundleHelper(false, b);
           });
       }
-      b.add('app/index.js');
+      b.add('app/init.js');
       bundleHelper(prodBuild, b);
 }
 
@@ -103,17 +103,6 @@ function bundleHelper(prodBuild, b, areaName){
 
 
 
-//
-//
-// BUILD HELPERS
-//
-//
-
-gulp.task('clean', function(){
-    del([ './dist/', './app/design/community.css', './app/design/community.vendor.css', './app/design/community.css.map', './app/locale' ]);
-});
-
-
 /****
         TEMPLATE TASKS
                         *****/
@@ -127,44 +116,40 @@ gulp.task('prod-templates', function(){
 });
 
 function templateHelper(prodBuild) {
-     var templateBlob =  buildTemplates();
+  var templateBlob = gulp.src(['app/directives/**/*.html', 'app/pages/**/*.html'])
+    .pipe($.ngHtml2js({
+      moduleName: 'listenfirst.templates'
+    }))
+    .pipe($.concat('listenfirst.templates.js'));
+
+
      if (prodBuild) {
         templateBlob = templateBlob
             .pipe($.uglify());
      }
 
-    return templateBlob.pipe(gulp.dest(areaPath(areaName) + '/js/'));
+    return templateBlob.pipe(gulp.dest(buildTarget + '/js/'));
 }
 
-function buildTemplates(areaName) {
-      return eventstream.merge(getSharedTemplates(), getAreaTemplates(areaName))
-            .pipe($.concat('community.templates.js'))
-}
+//
+//
+// BUILD HELPERS
+//
+//
 
-//race condition with re-localizing :(
-function getSharedTemplates(){
-      return gulp.src(['app/shared/**/*.html', '!app/index.html' ])
-            .pipe(htmlLocalization({
-                langDir: './locale',
-                trace: false,
-                inline: buildConfig.locale
-            }))
-            .pipe($.ngHtml2js({ moduleName: "community.templates" }));
-}
+gulp.task('clean', function(){
+    del([ './dist/']);
+});
 
-function getAreaTemplates(areaName) {
-     return gulp.src(['app/areas/' + areaName + '/**/**/*.html', '!app/index.html'])
-            .pipe(htmlLocalization({
-                langDir: './locale',
-                trace: false,
-                inline: buildConfig.locale
-            }))
-            .pipe($.ngHtml2js({ moduleName: "community.templates", prefix: areaName + '/' }))
-}
 
 /*****
         STYLE TASKS
                         ******/
+gulp.task('temp-stylesheets', function(){
+    return gulp.src('app/assets/**/*')
+      .pipe(gulp.dest(buildTarget + '/assets'));
+});
+
 gulp.task('vendor-stylesheets', function(){
     return gulp.src(sources.vendorCss)
         .pipe($.concat('community.vendor.css'))
@@ -312,6 +297,6 @@ gulp.task('default', ['dev', 'watch']);
 
 gulp.task('dev-prod', ['prod', 'watch', 'express']);
 
-gulp.task('dev', ['index', 'scripts']);
+gulp.task('dev', ['index', 'scripts', 'templates', 'temp-stylesheets']);
 
 gulp.task('prod', ['index', 'localization', 'prod-scripts', 'prod-templates', 'prod-stylesheets']);
