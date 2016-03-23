@@ -1,56 +1,56 @@
-<div class="row">
-	<div></div>
-	<div class="col-md-4">
-		<a ui-sref="enterUser" class="btn btn-block btn-sm btn-info fui-arrow-left">&nbsp;Enter New User</a>
+<div>
+	<div class="row">
+			<a ui-sref="enteruser" class="btn btn-primary">Enter New User</a>
+			<hr />
 	</div>
-</div>
-<hr />
-<div class="row">
-	<div class="col-md-12">
-		<h4>
-			{{ user.name }}
-			 <span ng-show="user.realname">({{ user.realname }})</span>
-			 <span ng-show="user.playcount"> - {{ user.playcount | number }} total plays</span>
-		</h4>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<h4>
+				{{ user.name }}
+				 <span ng-show="user.realname">({{ user.realname }})</span>
+				 <span ng-show="user.playcount"> - {{ user.playcount | number }} total plays</span>
+			</h4>
+		</div>
 	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		<accordion header-text="Filter">
-			<div class="row">
-                <div class="col-md-12 filter-option">
-                <h6>Show...</h6>
-            		<label ng-repeat="artistNumber in filter.artistNumberOptions">
-            			<input ng-change="applyFilter()" type="radio" ng-model="filter.limit" value="{{ artistNumber.value}}"/>
-            			{{ artistNumber.text }}
-            		</label>
-                </div>
-            </div>
-            <div class="row">
-                    <div class="col-md-12 filter-option">
-                    <h6>From...</h6>
-                    <label ng-repeat="timePeriod in filter.timePeriodOptions">
-            			<input ng-change="applyFilter()" type="radio" ng-model="filter.period" value="{{ timePeriod.value}}"/>
-            			{{ timePeriod.text }}
-            		</label>
-                </div>
-            </div>
-		</accordion>
-
-		<accordion header-text="Top Artists" default-open>
-			<error for="User"></error>
-			<div class="artists-container">
+	<div class="row">
+		<div class="col-md-12">
+			<accordion header-text="Filter">
 				<div class="row">
-					<div class="col-md-2 artist-panel" ng-repeat="artist in topArtists">
-						<p 
-							class="artist-name" 
-							title="{{ artist.playcount }} plays" 
-							ng-click="getFirstListen(artist.name)">
-							{{ artist.name }}
-						</p>
+	                <div class="col-md-12 filter-option">
+	                <h6>Show...</h6>
+	            		<label ng-repeat="artistNumber in filter.artistNumberOptions">
+	            			<input ng-change="applyFilter()" type="radio" ng-model="filter.limit" value="{{ artistNumber.value}}"/>
+	            			{{ artistNumber.text }}
+	            		</label>
+	                </div>
+	            </div>
+	            <div class="row">
+	                    <div class="col-md-12 filter-option">
+	                    <h6>From...</h6>
+	                    <label ng-repeat="timePeriod in filter.timePeriodOptions">
+	            			<input ng-change="applyFilter()" type="radio" ng-model="filter.period" value="{{ timePeriod.value}}"/>
+	            			{{ timePeriod.text }}
+	            		</label>
+	                </div>
+	            </div>
+			</accordion>
+
+			<accordion header-text="Top Artists" default-open>
+				<error for="User"></error>
+				<div class="artists-container">
+					<div class="row">
+						<div class="col-md-2 artist-panel" ng-repeat="artist in topArtists">
+							<p
+								class="artist-name"
+								title="{{ artist.playcount }} plays"
+								ng-click="getFirstListen(artist.name)">
+								{{ artist.name }}
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
-		</accordion>
+			</accordion>
+		</div>
 	</div>
 </div>

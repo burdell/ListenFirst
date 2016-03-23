@@ -1,16 +1,26 @@
 
 'use strict';
 
-require('angular-ui-router');
+var lastFmServiceName = require('services/LastFm');
 
 function config($stateProvider, $urlRouterProvider, $locationProvider){
 	$locationProvider.html5Mode(true);
 
 	$stateProvider
-		.state('listenfirst', {
+		.state('enteruser', {
 			url: '/',
 			templateUrl: 'enteruser/enteruser.html',
-			controller: 'EnterUserController as vm'
+			controller: 'EnterUser as vm'
+		})
+		.state('selectartist', {
+			url: '/user/:userName',
+			templateUrl: 'selectartist/selectartist.html',
+			controller: 'SelectArtist as vm',
+			resolve: {
+				UserArtistData: [lastFmServiceName, '$stateParams', function(LastFm, $stateParams){
+					return LastFm.getTopArtists($stateParams.userName);
+				}]
+			}
 		})
 }
 config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
