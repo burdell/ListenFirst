@@ -18,7 +18,17 @@ function config($stateProvider, $urlRouterProvider, $locationProvider){
 			controller: 'SelectArtist as vm',
 			resolve: {
 				UserArtistData: [lastFmServiceName, '$stateParams', function(LastFm, $stateParams){
-					return LastFm.getTopArtists($stateParams.userName);
+					return LastFm.getUserData($stateParams.userName);
+				}]
+			}
+		})
+		.state('selectartist.listeningdata', {
+			url: '/artist/:artistId',
+			templateUrl: 'listeningdata/listeningdata.html',
+			controller: 'ListeningData as vm',
+			resolve: {
+				ListeningData: [lastFmServiceName, '$stateParams', function(LastFm, $stateParams){
+					return LastFm.getFirstTrack($stateParams.userName, $stateParams.artistId);
 				}]
 			}
 		})

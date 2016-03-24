@@ -1,15 +1,27 @@
-angular.module(ListenFirst.appName)
-	.directive('accordion', function() {
-		return {
+
+function Accordion() {
+	function controller() {
+		this.bodyShown = this.defaultOpen || false;
+	}
+	controller.$inject = [];
+
+	var directive = {
+			controller: controller,
 			restrict: 'E',
-			templateUrl: 'accordionHeading.html',
-			transclude: true,
+			templateUrl: 'accordion/accordion.html',
 			scope: true,
-			link: function(scope, element, attrs) {
-				scope.accordion = {
-					bodyShown: !_.isUndefined(attrs.defaultOpen),
-					headerText: attrs.headerText
-				};
+			controllerAs: 'accordion',
+			bindToController: true,
+			replace: true,
+			transclude: true,
+			scope: {
+				defaultOpen: '=',
+				headerText: '@'
 			}
-		}
-	});
+	};
+
+	return directive;
+}
+
+angular.module('listenfirst.directives')
+	.directive('accordion', Accordion);

@@ -1,3 +1,24 @@
-<div>
-  <h1>trax</h1>
+<div class="row">
+  <div class="col-md-6"></div>
+  <div ng-show="tracks.loading == true" class="spinner">
+    <img src="images/ajax-loader.gif" />
+  </div>
+  <div ng-show="tracks.firstTrack">
+    <div class="first-listen-container col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>{{ tracks.artistName }}</h3>
+        </div>
+        <div class="circle col-md-12">
+          <a style="background-image: url({{ tracks.artistImageUrl }});"></a>
+        </div>
+      </div>
+      <div class="row">
+        <p>First listen: <strong>{{ tracks.firstTrack.date['#text'] }}</strong></p>
+        <p>First track: <strong>{{ tracks.firstTrack.name }}</strong> <span ng-show="tracks.firstTrack.album['#text']">from <strong>{{ tracks.firstTrack.album['#text'] }}</strong></span></p>
+        <p>Listens: {{ tracks.artistPlayCount }}</p>
+        <p>Most recent listen: <strong>{{ tracks.lastTrack.date['#text'] }}</strong> to <strong>{{ tracks.lastTrack.name }}</strong> <span ng-show="tracks.lastTrack.album['#text']">from <strong>{{ tracks.lastTrack.album['#text']}}</strong></p>
+      </div>
+    </div>
+  </div>
 </div>

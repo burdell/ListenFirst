@@ -3,13 +3,13 @@
 			<a ui-sref="enteruser" class="btn btn-primary">Enter New User</a>
 			<hr />
 	</div>
-	
+
 	<div class="row">
 		<div class="col-md-12">
 			<h4>
-				{{ user.name }}
-				 <span ng-show="user.realname">({{ user.realname }})</span>
-				 <span ng-show="user.playcount"> - {{ user.playcount | number }} total plays</span>
+				{{ vm.user.name }}
+				 <span ng-show="vm.user.realname">({{ vm.user.realname }})</span>
+				 <span ng-show="vm.user.playcount"> - {{ vm.user.playcount | number }} total plays</span>
 			</h4>
 		</div>
 	</div>
@@ -17,35 +17,45 @@
 		<div class="col-md-12">
 			<accordion header-text="Filter">
 				<div class="row">
-	                <div class="col-md-12 filter-option">
-	                <h6>Show...</h6>
-	            		<label ng-repeat="artistNumber in filter.artistNumberOptions">
-	            			<input ng-change="applyFilter()" type="radio" ng-model="filter.limit" value="{{ artistNumber.value}}"/>
-	            			{{ artistNumber.text }}
-	            		</label>
-	                </div>
-	            </div>
-	            <div class="row">
-	                    <div class="col-md-12 filter-option">
-	                    <h6>From...</h6>
-	                    <label ng-repeat="timePeriod in filter.timePeriodOptions">
-	            			<input ng-change="applyFilter()" type="radio" ng-model="filter.period" value="{{ timePeriod.value}}"/>
-	            			{{ timePeriod.text }}
-	            		</label>
-	                </div>
-	            </div>
+          <div class="col-md-12 filter-option">
+	          <h6>Show...</h6>
+	      		<label ng-repeat="artistNumber in vm.filterOptions.artistNumber">
+	      			<input
+								selected="{{ artistNumber.default }}"
+								ng-change="vm.filterArtists()"
+								type="radio"
+								ng-model="vm.artistFilter.limit"
+								value="{{ artistNumber.value }}"/>
+	      					{{ artistNumber.text }}
+	      		</label>
+          </div>
+	      </div>
+
+	      <div class="row">
+	        <div class="col-md-12 filter-option">
+		        <h6>From...</h6>
+		        <label ng-repeat="timePeriod in vm.filterOptions.timePeriod">
+	      			<input
+								selected="{{ timePeriod.default }}"
+								ng-change="vm.filterArtists()"
+								type="radio"
+								ng-model="vm.artistFilter.period"
+								value="{{ timePeriod.value}}" />
+	      					{{ timePeriod.text }}
+	      		</label>
+	        </div>
+		    </div>
 			</accordion>
 
-			<accordion header-text="Top Artists" default-open>
-				<error for="User"></error>
+			<accordion header-text="Top Artists" default-open="true">
 				<div class="artists-container">
 					<div class="row">
-						<div class="col-md-2 artist-panel" ng-repeat="artist in topArtists">
+						<div class="col-md-2 artist-panel" ng-repeat="artist in vm.artistData.artist">
 							<p
 								class="artist-name"
 								title="{{ artist.playcount }} plays"
 								ng-click="getFirstListen(artist.name)">
-								{{ artist.name }}
+								<a ui-sref=".listeningdata({ artistId: artist.name })">{{ artist.name }}</a>
 							</p>
 						</div>
 					</div>
